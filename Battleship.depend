@@ -31,3 +31,35 @@
 
 1545966641 d:\utilisateurs_d\desktop\nouveau dossier\tests\coordonnees.h
 
+1547242008 source:d:\utilisateurs_d\desktop\battleshiprepo\boardtools.c
+	<stdlib.h>
+	<stdio.h>
+	<time.h>
+	"printtools.h"
+	"coordonnees.h"
+	"boardtools.h"
+	<string.h>
+
+1545573187 d:\utilisateurs_d\desktop\battleshiprepo\printtools.h
+
+1545966641 d:\utilisateurs_d\desktop\battleshiprepo\coordonnees.h
+
+1545971949 d:\utilisateurs_d\desktop\battleshiprepo\boardtools.h
+	"coordonnees.h"
+
+1546446047 source:d:\utilisateurs_d\desktop\battleshiprepo\main.c
+	<stdio.h>
+	<stdlib.h>
+	"printtools.h"
+	<time.h>
+	"boardtools.h"
+	"coordonnees.h"
+	<windows.h>
+
+1545966641 source:d:\utilisateurs_d\desktop\battleshiprepo\printtools.c
+	<stdlib.h>
+	<windows.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+

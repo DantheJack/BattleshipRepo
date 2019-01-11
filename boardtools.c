@@ -13,18 +13,21 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     short j = 0;
     short k = 0;
     char contenu_case;
-    printf("\n       ------------- BATTLESHIP --------------\n\n");
+    system("cls");
+    color(14, 0);
+    printf("\n         ------------- BATTLESHIP --------------\n\n");
+    color(15, 0);
 
     //Label des colonnes
     color(11, 0);
-    printf(" ");
+    printf("     ");
     for (i=0; i<nb_colonnes; i++) {
         printf("   %c", i+65);
     }
     color(15, 0);
 
     //1st ligne de la grille
-    printf("\n  %c%c%c%c", 218, 196, 196, 196);
+    printf("\n      %c%c%c%c", 218, 196, 196, 196);
     for (i=0; i<nb_colonnes-1; i++) {
         printf("%c%c%c%c", 194, 196, 196, 196);
     }
@@ -35,8 +38,8 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
 
         //Label des lignes
         color(11, 0);
-        if(i<10) printf("\n%d ", i);
-        else printf("\n%d", i);
+        if(i<10) printf("\n    %d ", i);
+        else printf("\n    %d", i);
         color(15, 0);
 
         //1st ligne de separation verticale
@@ -237,11 +240,11 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 system("cls");
 
                 color(14, 0);
-                printf("\n       ------------- BATTLESHIP --------------\n\n");
+                printf("\n       -------------- (YOUR FLEET) --------------\n\n");
                 color(15, 0);
                 //Label des colonnes
                 color(11, 0);
-                printf(" ");
+                printf("     ");
                 for (i=0; i<nb_colonnes; i++) {
                     printf("   %c", i+65);
                 }
@@ -327,10 +330,9 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                         printf("%c", 217);
                     }
                 }
-                color(14, 0);
-                printf("\n\n                  - (YOUR FLEET) -          \n\n");
                 color(15, 0);
-                printf("Press A to rotate, move your ship with Z, Q, S and D. Press Enter to confirm.");
+                printf("\n Press A or E to rotate, move your ship with Z, Q, S and D.");
+                printf("\n                 Press Enter to confirm.\n");
 
                 /**tempsaffmatrices = clock() + tempssupp;**/
                 switchmatrice = 0;
@@ -669,11 +671,11 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 system("cls");
 
                 color(14, 0);
-                printf("\n           ------------- BATTLESHIP --------------\n\n");
+                printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
                 color(15, 0);
                 //Label des colonnes
                 color(11, 0);
-                printf(" ");
+                printf("     ");
                 for (i=0; i<nb_colonnes; i++) {
                     printf("   %c", i+65);
                 }
@@ -786,10 +788,9 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                         printf("%c", 217);
                     }
                 }
-                color(14, 0);
-                printf("\n\n                      - (YOUR FLEET) -          \n\n");
                 color(15, 0);
-                printf("    Move your reticule with Z, Q, S and D. Press Enter to confirm.");
+                printf("\n         Move your reticule with Z, Q, S and D.");
+                printf("\n                  Press Enter to confirm.");
 
                 /**tempsaffmatrices = clock() + tempssupp;**/
                 switchmatrice = 0;
@@ -852,7 +853,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     tir_done = 1;
                 }
                 else{
-                    printBattleShipMessage("Vous avez deja tire ici, veuillez choisir une cible valide.", matrice, nb_colonnes, nb_lignes);
+                    printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
                 }
                 cpt_pblm = 0;
             break;
