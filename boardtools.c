@@ -14,17 +14,17 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     short k = 0;
     char contenu_case;
     system("cls");
-    color(14, 0);
+    //color(14, 0);
     printf("\n         ------------- BATTLESHIP --------------\n\n");
-    color(15, 0);
+    //color(15, 0);
 
     //Label des colonnes
-    color(11, 0);
+    //color(11, 0);
     printf("     ");
     for (i=0; i<nb_colonnes; i++) {
         printf("   %c", i+65);
     }
-    color(15, 0);
+    //color(15, 0);
 
     //1st ligne de la grille
     printf("\n      %c%c%c%c", 218, 196, 196, 196);
@@ -37,10 +37,10 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     for (i=0; i<nb_lignes; i++) {
 
         //Label des lignes
-        color(11, 0);
+        //color(11, 0);
         if(i<10) printf("\n    %d ", i);
         else printf("\n    %d", i);
-        color(15, 0);
+        //color(15, 0);
 
         //1st ligne de separation verticale
         printf("%c ", 179);
@@ -60,32 +60,32 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
                 else printf(" ");
                 break;
             case 'c' :
-                if(votreboard) printERROR("C");
-                else printERROR("X");
+                if(votreboard) printf("C");
+                else printf("X");
                 break;
             case 'B' :
                 if(votreboard) printf("B");
                 else printf(" ");
                 break;
             case 'b' :
-                if(votreboard) printERROR("B");
-                else printERROR("X");
+                if(votreboard) printf("B");
+                else printf("X");
                 break;
             case 'S' :
                 if(votreboard) printf("S");
                 else printf(" ");
                 break;
             case 's' :
-                if(votreboard) printERROR("S");
-                else printERROR("X");
+                if(votreboard) printf("S");
+                else printf("X");
                 break;
             case 'D' :
                 if(votreboard) printf("D");
                 else printf(" ");
                 break;
             case 'd' :
-                if(votreboard) printERROR("D");
-                else printERROR("X");
+                if(votreboard) printf("D");
+                else printf("X");
                 break;
             default :
                 printf("j");
@@ -110,7 +110,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
             printf("%c", 217);
         }
     }
-    color(14, 0);
+    //color(14, 0);
     printf("\n\n                  - (YOUR FLEET) -          \n\n");
     return 1;
 }
@@ -239,16 +239,16 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
                 system("cls");
 
-                color(14, 0);
+                //color(14, 0);
                 printf("\n       -------------- (YOUR FLEET) --------------\n\n");
-                color(15, 0);
+                //color(15, 0);
                 //Label des colonnes
-                color(11, 0);
+                //color(11, 0);
                 printf("     ");
                 for (i=0; i<nb_colonnes; i++) {
                     printf("   %c", i+65);
                 }
-                color(15, 0);
+                //color(15, 0);
 
                 //1st ligne de la grille
                 printf("\n      %c%c%c%c", 218, 196, 196, 196);
@@ -261,10 +261,10 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 for (i=0; i<nb_lignes; i++) {
 
                     //Label des lignes
-                    color(11, 0);
+                    //color(11, 0);
                     if(i<10) printf("\n    %d ", i);
                     else printf("\n    %d", i);
-                    color(15, 0);
+                    //color(15, 0);
 
                     //1st ligne de separation verticale
                     printf("%c ", 179);
@@ -274,7 +274,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
                         contenu_case = matrice[i][j];
 
-                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) color(12, 0);
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) {}//color(12, 0);
 
                         switch (contenu_case) {
                             case 0 :
@@ -310,7 +310,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                                 printf("u");
                                 break;
                         }
-                        color(15, 0);
+                        //color(15, 0);
                         printf(" %c ", 179);
                     }
 
@@ -330,7 +330,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                         printf("%c", 217);
                     }
                 }
-                color(15, 0);
+                //color(15, 0);
                 printf("\n Press A or E to rotate, move your ship with Z, Q, S and D.");
                 printf("\n                 Press Enter to confirm.\n");
 
@@ -590,7 +590,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     ship_done = 1;
                 }
                 else{
-                    printCOM("\nproblem !\n");
+                    printf("\nproblem !\n");
                 }
                 cpt_pblm = 0;
             break;
@@ -670,16 +670,16 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
                 system("cls");
 
-                color(14, 0);
+                //color(14, 0);
                 printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
-                color(15, 0);
+                //color(15, 0);
                 //Label des colonnes
-                color(11, 0);
+                //color(11, 0);
                 printf("     ");
                 for (i=0; i<nb_colonnes; i++) {
                     printf("   %c", i+65);
                 }
-                color(15, 0);
+                //color(15, 0);
 
                 //1st ligne de la grille
                 printf("\n      %c%c%c%c", 218, 196, 196, 196);
@@ -692,17 +692,17 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 for (i=0; i<nb_lignes; i++) {
 
                     //Label des lignes
-                    color(11, 0);
+                    //color(11, 0);
                     if(i<10) printf("\n    %d ", i);
                     else printf("\n    %d", i);
-                    color(15, 0);
+                    //color(15, 0);
 
                     //1st ligne de separation verticale
                     printf("%c", 179);
                     if (curseur[0][1]==0 && curseur[0][0]==i){
-                        color(14, 0);
+                        //color(14, 0);
                         printf("%c", 62);
-                        color(15, 0);
+                        //color(15, 0);
                     }
                     else printf(" ");
 
@@ -724,50 +724,50 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                             else printf(" ");
                             break;
                         case 'c' :
-                            if(votreboard) printERROR("C");
-                            else printERROR("X");
+                            if(votreboard) printf("C");
+                            else printf("X");
                             break;
                         case 'B' :
                             if(votreboard) printf("B");
                             else printf(" ");
                             break;
                         case 'b' :
-                            if(votreboard) printERROR("B");
-                            else printERROR("X");
+                            if(votreboard) printf("B");
+                            else printf("X");
                             break;
                         case 'S' :
                             if(votreboard) printf("S");
                             else printf(" ");
                             break;
                         case 's' :
-                            if(votreboard) printERROR("S");
-                            else printERROR("X");
+                            if(votreboard) printf("S");
+                            else printf("X");
                             break;
                         case 'D' :
                             if(votreboard) printf("D");
                             else printf(" ");
                             break;
                         case 'd' :
-                            if(votreboard) printERROR("D");
-                            else printERROR("X");
+                            if(votreboard) printf("D");
+                            else printf("X");
                             break;
                         default :
                             printf("%c", 170);
                             break;
                         }
-                        color(15, 0);
+                        //color(15, 0);
                         if (curseur[0][0]==i && curseur[0][1]==j){
-                            color(14, 0);
+                            //color(14, 0);
                             printf("%c", 60);
-                            color(15, 0);
+                            //color(15, 0);
                             printf("%c ", 179);
                         }
                         else if (curseur[0][0]==i && curseur[0][1]==j+1){
 
                             printf(" %c", 179);
-                            color(14, 0);
+                            //color(14, 0);
                             printf("%c", 62);
-                            color(15, 0);
+                            //color(15, 0);
                         }
                         else printf(" %c ", 179);
                     }
@@ -788,7 +788,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                         printf("%c", 217);
                     }
                 }
-                color(15, 0);
+                //color(15, 0);
                 printf("\n         Move your reticule with Z, Q, S and D.");
                 printf("\n                  Press Enter to confirm.");
 
@@ -921,12 +921,12 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
     printf("\n           ------------- BATTLESHIP --------------\n\n");
 
     //Label des colonnes
-    color(11, 0);
+    //color(11, 0);
     printf("     ");
     for (i=0; i<nb_colonnes; i++) {
         printf("   %c", i+65);
     }
-    color(15, 0);
+    //color(15, 0);
 
     //1st ligne de la grille
     printf("\n      %c%c%c%c", 218, 196, 196, 196);
@@ -939,10 +939,10 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
     for (i=0; i<nb_lignes; i++) {
 
         //Label des lignes
-        color(11, 0);
+        //color(11, 0);
         if(i<10) printf("\n    %d ", i);
         else printf("\n    %d", i);
-        color(15, 0);
+        //color(15, 0);
 
         //1st ligne de separation verticale
         printf("%c ", 179);
@@ -969,7 +969,7 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
             printf("%c", 217);
         }
     }
-    color(14, 0);
+    //color(14, 0);
     printf("\n\n                      - (YOUR FLEET) -          \n\n");
     getchar();
 }
@@ -1058,14 +1058,14 @@ void** creerMatrice(short nb_colonnes, short nb_lignes)
 
     matrice = (void **)calloc(nb_lignes, sizeof(void *));
     if (matrice == NULL) {
-        printERROR("-- Erreur lors de l'allocation de la memoire des colonnes --\n");
+        printf("-- Erreur lors de l'allocation de la memoire des colonnes --\n");
         exit(0);
     }
 
     for (i=0; i<nb_lignes; i++) {
         matrice[i] = (void *)calloc(nb_colonnes, sizeof(void));
         if (matrice[i] == NULL) {
-            printERROR("-- Erreur lors de l'allocation de la memoire des lignes --\n");
+            printf("-- Erreur lors de l'allocation de la memoire des lignes --\n");
         }
     }
     return matrice;
