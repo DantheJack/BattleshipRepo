@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "printtools.h"
-#include <time.h>
 #include "boardtools.h"
 #include "coordonnees.h"
-#include <windows.h>
 #define COLONNES 11
 #define LIGNES 11
 #define SIZE_MAN_O_WAR 5
@@ -16,7 +13,6 @@
 
 int main()
 {
-    system("mode con lines=70 cols=70");
     short we_got_winner = 0;
     coordonnees_tir tir;
     short i, j, nb_boat_left = 0;

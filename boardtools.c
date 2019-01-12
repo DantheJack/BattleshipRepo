@@ -1,10 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "printtools.h"
 #include "coordonnees.h"
 #include "boardtools.h"
-#include <string.h>
 #define tempssupp 200;
 
 short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votreboard) //1 si c'est votre board, 0 sinon
