@@ -17,9 +17,108 @@
 int main()
 {
     system("mode con lines=70 cols=70");
+    short we_got_winner = 0;
+    coordonnees_tir tir;
+    short i, j, nb_boat_left = 0;
 
+
+    /***** ETAPE 1 : CREATION DES BOARDS **********************************/
+
+    char** matrice_J1 = creerMatrice(COLONNES, LIGNES);
+    char** matrice_J2 = creerMatrice(COLONNES, LIGNES);
+
+    /***** ETAPE 2 : DEMANDER A JOUEUR 1 DE PLACER SA FLOTTE **************/
+    system("cls");    printCOM("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
+    /*matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);*/
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
+    matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 5);
+
+    /***** ETAPE 3 : DEMANDER A JOUEUR 2 DE PLACER SA FLOTTE **************/
+    system("cls");    printCOM("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
+    /*matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 3);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 3);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 3);*/
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 4);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 4);
+    matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 5);
+
+    /***** ETAPE 4 : DONNER LE BOARD DE JOUEUR 2 A JOUEUR 1 ***************/
+
+    //ici, évidemment, on les a dejà, puisqu'on est en local
+
+    /***** ETAPE 5 : DONNER LE BOARD DE JOUEUR 1 A JOUEUR 2 **************/
+
+    //ici, évidemment, on les a dejà, puisqu'on est en local
+
+    while(we_got_winner == 0){
+
+    /***** ETAPE 6 : DEMANDER A JOUEUR 1 DE TIRER SUR JOUEUR 2 ************/
+    system("cls");    printCOM("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
+    tir = Aim(matrice_J2, COLONNES, LIGNES);
+
+    /***** ETAPE 7 : TRANSMETTRE LE TIR A JOUEUR 2 ************************/
+
+    //fireOnCoordonnees(tir.a_la_ligne, tir.a_la_colonne, matrice_J2);
+    //encore une fois, c'est pour de faux. On a les deux matrices en local
+    //donc quand joueur 1 tire sur le board de joueur 2, on l'a déja marqué.
+
+    for(i=0; i<LIGNES; i++){
+        for(j=0; j<COLONNES; j++){
+            if(matrice_J2[i][j] == 'C' || matrice_J2[i][j] == 'S' || matrice_J2[i][j] == 'D' || matrice_J2[i][j] == 'B') nb_boat_left++;
+        }
+    }
+    if(nb_boat_left == 0)
+    {
+        we_got_winner = 1;
+        break;
+    }
+    nb_boat_left = 0;
+    system("cls");    printCOM("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
+
+    /***** ETAPE 8 : DEMANDER A JOUEUR 2 DE TIRER SUR JOUEUR 1 ************/
+
+    tir = Aim(matrice_J1, COLONNES, LIGNES);
+
+    /***** ETAPE 9 : TRANSMETTRE LE TIR A JOUEUR 1 ************************/
+
+    //fireOnCoordonnees(tir.a_la_ligne, tir.a_la_colonne, matrice_J1);
+    //encore une fois, c'est pour de faux. On a les deux matrices en local
+    //donc quand joueur 2 tire sur le board de joueur 1, on l'a déja marqué.
+
+    for(i=0; i<LIGNES; i++){
+        for(j=0; j<COLONNES; j++){
+            if(matrice_J1[i][j] == 'C' || matrice_J1[i][j] == 'S' || matrice_J1[i][j] == 'D' || matrice_J1[i][j] == 'B') nb_boat_left++;
+        }
+    }
+    if(nb_boat_left == 0)
+    {
+        we_got_winner = 2;
+        break;
+    }
+    nb_boat_left = 0;
+    system("cls");    printCOM("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
+
+    }
+    printf("\n\nWE GOT A WINNER ! CONGRATULATIONS, PLAYER %hd !", we_got_winner);
+    getchar();
+
+    libererMatrice(matrice_J1, LIGNES);
+    libererMatrice(matrice_J2, LIGNES);
+
+    /*
     char** my_matrice = creerMatrice(COLONNES, LIGNES);
-    /*my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
+    my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
@@ -27,7 +126,7 @@ int main()
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 3);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 3);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 4);
-    my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 4);*/
+    my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 4);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 5);
 
     char** his_matrice = creerMatrice(COLONNES, LIGNES);
@@ -74,6 +173,8 @@ int main()
 
     libererMatrice(my_matrice, LIGNES);
     libererMatrice(his_matrice, LIGNES);
+    */
+
     return 0;
 
 }
