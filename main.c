@@ -191,7 +191,7 @@ int main()
 // | Quand le serveur aura demande aux deux joueurs de creer
 // | leurs boards respectifs et de les lui envoyer, il va les
 // | transmettre a chaque joueur pour que tout le monde ait les
-// | mêmes infos. Les joueurs devront donc enregistrer aussi la
+// | memes infos. Les joueurs devront donc enregistrer aussi la
 // | matrice de l'advesaire.
 
 /* request coordonnees d'un tir */
