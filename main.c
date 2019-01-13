@@ -85,28 +85,28 @@ int main()
 /**            COMMUNICATION ENTRE LES JOUEURS               **/
 
 /* request board d'un joueur */
-// | Quand un joueur reçoit cette requete, il va créer
+// | Quand un joueur reÃ§oit cette requete, il va creer
 // | sa matrice de board et la remplir (ship par ship)
 // | puis, une fois le board operationnel, il va l'envoyer
 // | au serveur.
 
 /* transmission board d'un joueur */
-// | Quand le serveur aura demande aux deux joueurs de créer
+// | Quand le serveur aura demande aux deux joueurs de creer
 // | leurs boards respectifs et de les lui envoyer, il va les
-// | transmettre à chaque joueur pour que tout le monde ait les
-// | mêmes infos. Les joueurs devront donc enregistrer aussi la
+// | transmettre Ã  chaque joueur pour que tout le monde ait les
+// | memes infos. Les joueurs devront donc enregistrer aussi la
 // | matrice de l'advesaire.
 
-/* request coordonnées d'un tir */
-// | Quand un joueur reçoit cette requete, il va définir
-// | son prochain coup et envoyer les coordonnées de son
+/* request coordonnees d'un tir */
+// | Quand un joueur reÃ§oit cette requete, il va definir
+// | son prochain coup et envoyer les coordonnees de son
 // | tir au serveur. Il va aussi modifier la matrice de
-// | adversaire en conséquence dans sa mémoire.
+// | adversaire en consequence dans sa memoire.
 
-/* transmission coordonnées du tir */
-// | Le serveur, après avoir demandé un tir à J1, va
-// | transmettre les coordonnées du tir à J2, afin que
-// | celui-ci modifie son board en conséquence.
+/* transmission coordonnees du tir */
+// | Le serveur, aprÃ¨s avoir demande un tir Ã  J1, va
+// | transmettre les coordonnees du tir Ã  J2, afin que
+// | celui-ci modifie son board en consequence.
 
 
 /**                    INUTILE DE CODER CA                    **/
@@ -115,10 +115,10 @@ int main()
 // | Le serveur demande au joueur sur qui on vient de
 // | tirer combien de case Majuscule (donc de morceaux
 // | de bateau intacts) il lui reste sur son board. Si
-// | la réponse est zéro, alors la partie prend fin.
+// | la reponse est zero, alors la partie prend fin.
 // | ------------------------------------------------
 // | Inutile, les deux joueurs peuvent le savoir direct
-// | puisqu'ils ont toutes les données en main.
+// | puisqu'ils ont toutes les donnees en main.
 
 
 
