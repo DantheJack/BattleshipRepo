@@ -1,3 +1,7 @@
-all: boardtools.c main.c
-	gcc -o Battleship boardtools.c main.c -I.
+SRCS = boardtools.c main.c
 
+# lncurses is the library for curses.h
+LIBS = -lncurses
+
+all: $(SRCS)
+	gcc -o Battleship $(SRCS) $(LIBS) -I.
