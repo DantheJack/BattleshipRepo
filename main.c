@@ -216,7 +216,3 @@ int main()
 // | ------------------------------------------------
 // | Inutile, les deux joueurs peuvent le savoir direct
 // | puisqu'ils ont toutes les donnees en main.
-
-
-
-
