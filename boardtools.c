@@ -6,6 +6,38 @@
 #include <curses.h>
 #define tempssupp 200;
 
+int _kbhit(void);
+#include <sys/ioctl.h>
+
+//Linux Box-Drawing Characters
+#define RB "\e(0\x6a\e(B" // 217 Right Bottom corner
+#define RT "\e(0\x6b\e(B" // 191 Right Top corner
+#define LT "\e(0\x6c\e(B" // 218 Left Top cornet
+#define LB "\e(0\x6d\e(B" // 192 Left Bottom corner
+#define MC "\e(0\x6e\e(B" // 197 Midle Cross
+#define HL "\e(0\x71\e(B" // 196 Horizontal Line
+#define LC "\e(0\x74\e(B" // 195 Left Cross
+#define RC "\e(0\x75\e(B" // 180 Right Cross
+#define BC "\e(0\x76\e(B" // 193 Bottom Cross
+#define TC "\e(0\x77\e(B" // 194 Top Cross
+#define VL "\e(0\x78\e(B" // 179 Vertical Line
+//Il reste a trouver pour 170
+
+//Windows Box-Drawing Characters
+/*
+#define RB "217" // 217 Right Bottom corner
+#define RT "191" // 191 Right Top corner
+#define LT "218" // 218 Left Top cornet
+#define LB "192" // 192 Left Bottom corner
+#define MC "197" // 197 Midle Cross
+#define HL "196" // 196 Horizontal Line
+#define LC "195" // 195 Left Cross
+#define RC "180" // 180 Right Cross
+#define BC "193" // 193 Bottom Cross
+#define TC "194" // 194 Top Cross
+#define VL "179" // 179 Vertical Line
+*/
+
 short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votreboard) //1 si c'est votre board, 0 sinon
 {
     short i = 0;
@@ -26,11 +58,11 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     //color(15, 0);
 
     //1st ligne de la grille
-    printf("\n      %c%c%c%c", 218, 196, 196, 196);
+    printf("\n      %s%s%s%s", LT, HL, HL, HL);
     for (i=0; i<nb_colonnes-1; i++) {
-        printf("%c%c%c%c", 194, 196, 196, 196);
+        printf("%s%s%s%s", TC, HL, HL, HL);
     }
-    printf("%c", 191);
+    printf("%s", RT);
 
     //Contenu
     for (i=0; i<nb_lignes; i++) {
@@ -42,7 +74,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
         //color(15, 0);
 
         //1st ligne de separation verticale
-        printf("%c ", 179);
+        printf("%s ", VL);
 
         //Switch contenu de la case
         for (j=0; j<nb_colonnes; j++) {
@@ -90,23 +122,23 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
                 printf("j");
                 break;
             }
-            printf(" %c ", 179);
+            printf(" %s ", VL);
         }
 
         //Ligne de separation horizontale
         if(i != nb_lignes-1){
-            printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
+            printf("\n      %s%s%s%s", LC, HL, HL, HL); //premiere case de la ligne
             for (k=0; k<nb_colonnes-1; k++) {
-                printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
+                printf("%s%s%s%s", MC, HL, HL, HL); //reste de la ligne
             }
-            printf("%c", 180);
+            printf("%s", RC);
         }
         else{ //Derniere ligne de la grille
-            printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
+            printf("\n      %s%s%s%s", LB, HL, HL, HL); //premiere case de la derniere ligne
             for (k=0; k<nb_colonnes-1; k++) {
-                printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
+                printf("%s%s%s%s", BC, HL, HL, HL); //reste de la derniere ligne
             }
-            printf("%c", 217);
+            printf("%s", RB);
         }
     }
     //color(14, 0);
@@ -250,11 +282,11 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 //color(15, 0);
 
                 //1st ligne de la grille
-                printf("\n      %c%c%c%c", 218, 196, 196, 196);
+                printf("\n      %s%s%s%s", LT, HL, HL, HL);
                 for (i=0; i<nb_colonnes-1; i++) {
-                    printf("%c%c%c%c", 194, 196, 196, 196);
+                    printf("%s%s%s%s", TC, HL, HL, HL);
                 }
-                printf("%c", 191);
+                printf("%s", RT);
 
                 //Contenu
                 for (i=0; i<nb_lignes; i++) {
@@ -266,7 +298,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     //color(15, 0);
 
                     //1st ligne de separation verticale
-                    printf("%c ", 179);
+                    printf("%s ", VL);
 
                     //Switch contenu de la case
                     for (j=0; j<nb_colonnes; j++) {
@@ -310,23 +342,23 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                                 break;
                         }
                         //color(15, 0);
-                        printf(" %c ", 179);
+                        printf(" %s ", VL);
                     }
 
                     //Ligne de separation horizontale
                     if(i != nb_lignes-1){
-                        printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
+                        printf("\n      %s%s%s%s", LC, HL, HL, HL); //premiere case de la ligne
                         for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
+                            printf("%s%s%s%s", MC, HL, HL, HL); //reste de la ligne
                         }
-                        printf("%c", 180);
+                        printf("%s", RC);
                     }
                     else{ //Derniere ligne de la grille
-                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
+                        printf("\n      %s%s%s%s", LB, HL, HL, HL); //premiere case de la derniere ligne
                         for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
+                            printf("%s%s%s%s", BC, HL, HL, HL); //reste de la derniere ligne
                         }
-                        printf("%c", 217);
+                        printf("%s", RB);
                     }
                 }
                 //color(15, 0);
@@ -681,11 +713,11 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 //color(15, 0);
 
                 //1st ligne de la grille
-                printf("\n      %c%c%c%c", 218, 196, 196, 196);
+                printf("\n      %s%s%s%s", LT, HL, HL, HL);
                 for (i=0; i<nb_colonnes-1; i++) {
-                    printf("%c%c%c%c", 194, 196, 196, 196);
+                    printf("%s%s%s%s", TC, HL, HL, HL);
                 }
-                printf("%c", 191);
+                printf("%s", RT);
 
                 //Contenu
                 for (i=0; i<nb_lignes; i++) {
@@ -697,7 +729,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     //color(15, 0);
 
                     //1st ligne de separation verticale
-                    printf("%c", 179);
+                    printf("%s", VL);
                     if (curseur[0][1]==0 && curseur[0][0]==i){
                         //color(14, 0);
                         printf("%c", 62);
@@ -751,7 +783,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                             else printf("X");
                             break;
                         default :
-                            printf("%c", 170);
+                            printf("%c", '#');
                             break;
                         }
                         //color(15, 0);
@@ -759,32 +791,32 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                             //color(14, 0);
                             printf("%c", 60);
                             //color(15, 0);
-                            printf("%c ", 179);
+                            printf("%s ", VL);
                         }
                         else if (curseur[0][0]==i && curseur[0][1]==j+1){
 
-                            printf(" %c", 179);
+                            printf(" %s", VL);
                             //color(14, 0);
                             printf("%c", 62);
                             //color(15, 0);
                         }
-                        else printf(" %c ", 179);
+                        else printf(" %s ", VL);
                     }
 
                     //Ligne de separation horizontale
                     if(i != nb_lignes-1){
-                        printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
+                        printf("\n      %s%s%s%s", LC, HL, HL, HL); //premiere case de la ligne
                         for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
+                            printf("%s%s%s%s", MC, HL, HL, HL); //reste de la ligne
                         }
-                        printf("%c", 180);
+                        printf("%s", RC);
                     }
                     else{ //Derniere ligne de la grille
-                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
+                        printf("\n      %s%s%s%s", LB, HL, HL, HL); //premiere case de la derniere ligne
                         for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
+                            printf("%s%s%s%s", BC, HL, HL, HL); //reste de la derniere ligne
                         }
-                        printf("%c", 217);
+                        printf("%s", RB);
                     }
                 }
                 //color(15, 0);
@@ -928,11 +960,11 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
     //color(15, 0);
 
     //1st ligne de la grille
-    printf("\n      %c%c%c%c", 218, 196, 196, 196);
+    printf("\n      %s%s%s%s", LT, HL, HL, HL);
     for (i=0; i<nb_colonnes-1; i++) {
-        printf("%c%c%c%c", 194, 196, 196, 196);
+        printf("%s%s%s%s", TC, HL, HL, HL);
     }
-    printf("%c", 191);
+    printf("%s", RT);
 
     //Contenu
     for (i=0; i<nb_lignes; i++) {
@@ -944,28 +976,28 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
         //color(15, 0);
 
         //1st ligne de separation verticale
-        printf("%c ", 179);
+        printf("%s ", VL);
 
         //Switch contenu de la case
         for (j=0; j<nb_colonnes; j++) {
 
-            printf("  %c ", 179);
+            printf("  %s ", VL);
         }
 
         //Ligne de separation horizontale
         if(i != nb_lignes-1){
-            printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
+            printf("\n      %s%s%s%s", LC, HL, HL, HL); //premiere case de la ligne
             for (k=0; k<nb_colonnes-1; k++) {
-                printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
+                printf("%s%s%s%s", MC, HL, HL, HL); //reste de la ligne
             }
-            printf("%c", 180);
+            printf("%s", RC);
         }
         else{ //Derniere ligne de la grille
-            printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
+            printf("\n      %s%s%s%s", LB, HL, HL, HL); //premiere case de la derniere ligne
             for (k=0; k<nb_colonnes-1; k++) {
-                printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
+                printf("%s%s%s%s", BC, HL, HL, HL); //reste de la derniere ligne
             }
-            printf("%c", 217);
+            printf("%s", RB);
         }
     }
     //color(14, 0);
