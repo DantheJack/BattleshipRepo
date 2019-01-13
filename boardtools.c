@@ -182,7 +182,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     }
 
     //Creation d'une sauvegarde du board
-    char** matrice_saved = creerMatrice(nb_colonnes, nb_lignes);
+    char** matrice_saved = (char**) creerMatrice(nb_colonnes, nb_lignes);
     for (i=0; i<nb_colonnes; i++){
         for(j=0; j<nb_lignes; j++){
             matrice_saved[i][j]=matrice[i][j]; //memccpoy doesn't work for some reason...
@@ -190,7 +190,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     }
 
     //Creation d'un bateau de taille 2, 3, 4 ou 5 (selon size_ship)
-    short** ship = creerMatrice(2, size_ship);
+    short** ship = (short**) creerMatrice(2, size_ship);
 
     //initialisation placement bateau (coin sup. gauche verticalement)
     for (m=0; m<size_ship; m++){
@@ -198,7 +198,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     }
 
     //Creation d'une sauvegarde du ship (pour la rotation)
-    char** ship_s = creerMatrice(2, size_ship);
+    char** ship_s = (char**) creerMatrice(2, size_ship);
     for (j=0; j<2; j++){
         for(i=0; i<size_ship; i++){
             ship_s[i][j]=ship[i][j];
@@ -638,7 +638,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     coordonnees_tir tir;
 
     //Creation d'une sauvegarde du board
-    char** matrice_saved = creerMatrice(nb_colonnes, nb_lignes);
+    char** matrice_saved = (char**) creerMatrice(nb_colonnes, nb_lignes);
     for (i=0; i<nb_colonnes; i++){
         for(j=0; j<nb_lignes; j++){
             matrice_saved[i][j]=matrice[i][j];
@@ -646,7 +646,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     }
 
     //Creation d'un curseur
-    short** curseur = creerMatrice(2, 1);
+    short** curseur = (short**) creerMatrice(2, 1);
     curseur[0][0] = 0;
     curseur[0][1] = 0;
 
@@ -888,7 +888,7 @@ char** place_a_ship_here(char** matrice, short nb_colonnes, short nb_lignes, sho
     }
 
     //Creation d'un bateau de taille 2, 3, 4 ou 5 (selon size_ship)
-    short** ship = creerMatrice(2, size_ship);
+    short** ship = (short**) creerMatrice(2, size_ship);
 
     //placement bateau
     if(orientation == 'v'){
@@ -991,7 +991,7 @@ char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes){
 
 
     //Creation d'un bateau de taille 5
-    short** ship = creerMatrice(2, size_ship);
+    short** ship = (short**) creerMatrice(2, size_ship);
 
     while(cpt!=11){
 

@@ -20,8 +20,8 @@ int main()
 
     /***** ETAPE 1 : CREATION DES BOARDS **********************************/
 
-    char** matrice_J1 = creerMatrice(COLONNES, LIGNES);
-    char** matrice_J2 = creerMatrice(COLONNES, LIGNES);
+    char** matrice_J1 = (char**) creerMatrice(COLONNES, LIGNES);
+    char** matrice_J2 = (char**) creerMatrice(COLONNES, LIGNES);
 
     /***** ETAPE 2 : DEMANDER A JOUEUR 1 DE PLACER SA FLOTTE **************/
     system("cls");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
@@ -113,7 +113,7 @@ int main()
     libererMatrice(matrice_J2, LIGNES);
 
     /*
-    char** my_matrice = creerMatrice(COLONNES, LIGNES);
+    char** my_matrice = (char**) creerMatrice(COLONNES, LIGNES);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 2);
@@ -125,7 +125,7 @@ int main()
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 4);
     my_matrice = placeShip(my_matrice, COLONNES, LIGNES, 5);
 
-    char** his_matrice = creerMatrice(COLONNES, LIGNES);
+    char** his_matrice = (char**) creerMatrice(COLONNES, LIGNES);
 
 
     char signe = 0;
