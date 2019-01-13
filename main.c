@@ -24,7 +24,7 @@ int main()
     char** matrice_J2 = (char**) creerMatrice(COLONNES, LIGNES);
 
     /***** ETAPE 2 : DEMANDER A JOUEUR 1 DE PLACER SA FLOTTE **************/
-    system("cls");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
+    system("clear");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
     /*matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
@@ -37,7 +37,7 @@ int main()
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 5);
 
     /***** ETAPE 3 : DEMANDER A JOUEUR 2 DE PLACER SA FLOTTE **************/
-    system("cls");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
+    system("clear");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
     /*matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
     matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
     matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 2);
@@ -60,7 +60,7 @@ int main()
     while(we_got_winner == 0){
 
     /***** ETAPE 6 : DEMANDER A JOUEUR 1 DE TIRER SUR JOUEUR 2 ************/
-    system("cls");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
+    system("clear");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
     tir = Aim(matrice_J2, COLONNES, LIGNES);
 
     /***** ETAPE 7 : TRANSMETTRE LE TIR A JOUEUR 2 ************************/
@@ -80,7 +80,7 @@ int main()
         break;
     }
     nb_boat_left = 0;
-    system("cls");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
+    system("clear");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
 
     /***** ETAPE 8 : DEMANDER A JOUEUR 2 DE TIRER SUR JOUEUR 1 ************/
 
@@ -103,7 +103,7 @@ int main()
         break;
     }
     nb_boat_left = 0;
-    system("cls");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
+    system("clear");    printf("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 1\n");    getchar();
 
     }
     printf("\n\nWE GOT A WINNER ! CONGRATULATIONS, PLAYER %hd !", we_got_winner);

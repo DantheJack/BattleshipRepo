@@ -11,7 +11,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     short j = 0;
     short k = 0;
     char contenu_case;
-    system("cls");
+    system("clear");
     //color(14, 0);
     printf("\n         ------------- BATTLESHIP --------------\n\n");
     //color(15, 0);
@@ -235,7 +235,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
         //Boucle d'affichage des deux matrices pour clignotement
         while (!kbhit()) {
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                system("cls");
+                system("clear");
 
                 //color(14, 0);
                 printf("\n       -------------- (YOUR FLEET) --------------\n\n");
@@ -337,7 +337,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             }
 
             /**if(clock() >= tempsaffmatrices && switchmatrice == 1){
-                system("cls");
+                system("clear");
                 printBoard(matrice_saved, nb_colonnes, nb_lignes, 1);
                 tempsaffmatrices = clock() + tempssupp;
                 switchmatrice = 0;
@@ -666,7 +666,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
         //Boucle d'affichage des deux matrices pour clignotement
         while (!kbhit()) {
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                system("cls");
+                system("clear");
 
                 //color(14, 0);
                 printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
@@ -795,7 +795,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
             }
 
             /**if(clock() >= tempsaffmatrices && switchmatrice == 1){
-                system("cls");
+                system("clear");
                 printBoard(matrice_saved, nb_colonnes, nb_lignes, 1);
                 tempsaffmatrices = clock() + tempssupp;
                 switchmatrice = 0;
