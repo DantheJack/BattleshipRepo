@@ -51,11 +51,11 @@ int main()
 
     /***** ETAPE 4 : DONNER LE BOARD DE JOUEUR 2 A JOUEUR 1 ***************/
 
-    //ici, évidemment, on les a dejà, puisqu'on est en local
+    //ici, evidemment, on les a deja, puisqu'on est en local
 
     /***** ETAPE 5 : DONNER LE BOARD DE JOUEUR 1 A JOUEUR 2 **************/
 
-    //ici, évidemment, on les a dejà, puisqu'on est en local
+    //ici, evidemment, on les a deja, puisqu'on est en local
 
     while(we_got_winner == 0){
 
@@ -67,7 +67,7 @@ int main()
 
     //fireOnCoordonnees(tir.a_la_ligne, tir.a_la_colonne, matrice_J2);
     //encore une fois, c'est pour de faux. On a les deux matrices en local
-    //donc quand joueur 1 tire sur le board de joueur 2, on l'a déja marqué.
+    //donc quand joueur 1 tire sur le board de joueur 2, on l'a deja marque.
 
     for(i=0; i<LIGNES; i++){
         for(j=0; j<COLONNES; j++){
@@ -90,7 +90,7 @@ int main()
 
     //fireOnCoordonnees(tir.a_la_ligne, tir.a_la_colonne, matrice_J1);
     //encore une fois, c'est pour de faux. On a les deux matrices en local
-    //donc quand joueur 2 tire sur le board de joueur 1, on l'a déja marqué.
+    //donc quand joueur 2 tire sur le board de joueur 1, on l'a deja marque.
 
     for(i=0; i<LIGNES; i++){
         for(j=0; j<COLONNES; j++){
@@ -182,28 +182,28 @@ int main()
 /**            COMMUNICATION ENTRE LES JOUEURS               **/
 
 /* request board d'un joueur */
-// | Quand un joueur reçoit cette requete, il va créer
+// | Quand un joueur recoit cette requete, il va creer
 // | sa matrice de board et la remplir (ship par ship)
 // | puis, une fois le board operationnel, il va l'envoyer
 // | au serveur.
 
 /* transmission board d'un joueur */
-// | Quand le serveur aura demande aux deux joueurs de créer
+// | Quand le serveur aura demande aux deux joueurs de creer
 // | leurs boards respectifs et de les lui envoyer, il va les
-// | transmettre à chaque joueur pour que tout le monde ait les
+// | transmettre a chaque joueur pour que tout le monde ait les
 // | mêmes infos. Les joueurs devront donc enregistrer aussi la
 // | matrice de l'advesaire.
 
-/* request coordonnées d'un tir */
-// | Quand un joueur reçoit cette requete, il va définir
-// | son prochain coup et envoyer les coordonnées de son
+/* request coordonnees d'un tir */
+// | Quand un joueur recoit cette requete, il va definir
+// | son prochain coup et envoyer les coordonnees de son
 // | tir au serveur. Il va aussi modifier la matrice de
-// | adversaire en conséquence dans sa mémoire.
+// | adversaire en consequence dans sa memoire.
 
-/* transmission coordonnées du tir */
-// | Le serveur, après avoir demandé un tir à J1, va
-// | transmettre les coordonnées du tir à J2, afin que
-// | celui-ci modifie son board en conséquence.
+/* transmission coordonnees du tir */
+// | Le serveur, apres avoir demande un tir a J1, va
+// | transmettre les coordonnees du tir a J2, afin que
+// | celui-ci modifie son board en consequence.
 
 
 /**                    INUTILE DE CODER CA                    **/
@@ -212,10 +212,10 @@ int main()
 // | Le serveur demande au joueur sur qui on vient de
 // | tirer combien de case Majuscule (donc de morceaux
 // | de bateau intacts) il lui reste sur son board. Si
-// | la réponse est zéro, alors la partie prend fin.
+// | la reponse est zero, alors la partie prend fin.
 // | ------------------------------------------------
 // | Inutile, les deux joueurs peuvent le savoir direct
-// | puisqu'ils ont toutes les données en main.
+// | puisqu'ils ont toutes les donnees en main.
 
 
 

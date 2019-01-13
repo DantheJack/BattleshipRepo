@@ -48,10 +48,10 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
             contenu_case = matrice[i][j];
             switch (contenu_case) {
             case 0 :
-                printf(" "); //caractere représentant l'eau
+                printf(" "); //caractere representant l'eau
                 break;
             case 'X' :
-                printf("X"); //caractere représentant un tir adverse dans l'eau
+                printf("X"); //caractere representant un tir adverse dans l'eau
                 break;
             case 'C' :
                 if(votreboard) printf("C");
@@ -100,10 +100,10 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
             }
             printf("%c", 180);
         }
-        else{ //Dernière ligne de la grille
-            printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
+        else{ //Derniere ligne de la grille
+            printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
             for (k=0; k<nb_colonnes-1; k++) {
-                printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
+                printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
             }
             printf("%c", 217);
         }
@@ -194,7 +194,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
     //initialisation placement bateau (coin sup. gauche verticalement)
     for (m=0; m<size_ship; m++){
-        ship[m][0] = m; //remplit la colonne n°0 de ship avec les lignes sur lequel il se trouve dans matrice
+        ship[m][0] = m; //remplit la colonne no 0 de ship avec les lignes sur lequel il se trouve dans matrice
     }
 
     //Creation d'une sauvegarde du ship (pour la rotation)
@@ -212,7 +212,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
     while(ship_done != 1){
 
-        //Boucle remplaçant matrice par sa version matrice_saved
+        //Boucle remplacant matrice par sa version matrice_saved
         for (i=0; i<nb_colonnes; i++){
             for(j=0; j<nb_lignes; j++){
                 matrice[i][j]=matrice_saved[i][j];
@@ -276,10 +276,10 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
                         switch (contenu_case) {
                             case 0 :
-                                printf(" "); //caractere représentant l'eau
+                                printf(" "); //caractere representant l'eau
                                 break;
                             case 'X' :
-                                printf("X"); //caractere représentant un tir adverse dans l'eau
+                                printf("X"); //caractere representant un tir adverse dans l'eau
                             case 'C' :
                                 printf("C");
                                 break;
@@ -320,10 +320,10 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                         }
                         printf("%c", 180);
                     }
-                    else{ //Dernière ligne de la grille
-                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
+                    else{ //Derniere ligne de la grille
+                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
                         for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
+                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
                         }
                         printf("%c", 217);
                     }
@@ -574,7 +574,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case (short) 13 : //touche Entrée
+            case (short) 13 : //touche Entree
                 for(o=0; o<size_ship; o++){
                     if(matrice_saved[ship[o][0]][ship[o][1]] != 0)
                     {
@@ -656,7 +656,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
 
     while(tir_done != 1){
 
-        //Boucle remplaçant matrice par sa version matrice_saved
+        //Boucle remplacant matrice par sa version matrice_saved
         for (i=0; i<nb_colonnes; i++){
             for(j=0; j<nb_lignes; j++){
                 matrice[i][j]=matrice_saved[i][j];
@@ -711,11 +711,11 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
 
                         switch (contenu_case) {
                         case 0 :
-                            printf(" "); //caractere représentant l'eau
+                            printf(" "); //caractere representant l'eau
 
                             break;
                         case 'X' :
-                            printf("X"); //caractere représentant un tir adverse dans l'eau
+                            printf("X"); //caractere representant un tir adverse dans l'eau
                             break;
                         case 'C' :
                             if(votreboard) printf("C");
@@ -778,10 +778,10 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                         }
                         printf("%c", 180);
                     }
-                    else{ //Dernière ligne de la grille
-                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
+                    else{ //Derniere ligne de la grille
+                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
                         for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
+                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
                         }
                         printf("%c", 217);
                     }
@@ -833,7 +833,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 }
             break;
 
-            case (short) 13 : //touche Entrée
+            case (short) 13 : //touche Entree
                 for(o=0; o<size_ship; o++){
                     if((matrice_saved[curseur[o][0]][curseur[o][1]] == 'X')
                         ||(matrice_saved[curseur[o][0]][curseur[o][1]] == 'c')
@@ -959,10 +959,10 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
             }
             printf("%c", 180);
         }
-        else{ //Dernière ligne de la grille
-            printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
+        else{ //Derniere ligne de la grille
+            printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la derniere ligne
             for (k=0; k<nb_colonnes-1; k++) {
-                printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
+                printf("%c%c%c%c", 193, 196, 196, 196); //reste de la derniere ligne
             }
             printf("%c", 217);
         }
@@ -1073,14 +1073,14 @@ void libererMatrice(short** matrice, short nb_lignes) {
 
     short i = 0;
 
-    //On libère le bloc mémoire de chaque ligne (les tableaux au deuxième niveau)
+    //On libere le bloc memoire de chaque ligne (les tableaux au deuxieme niveau)
     for (i=0; i<nb_lignes; i++) {
 
         free(matrice[i]);
         matrice[i] = NULL;
     }
 
-    //On libère le bloc mémoire des pointeurs (premier tableau)
+    //On libere le bloc memoire des pointeurs (premier tableau)
     free(matrice);
     matrice = NULL;
 }
