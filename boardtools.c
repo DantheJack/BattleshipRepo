@@ -194,7 +194,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
     //initialisation placement bateau (coin sup. gauche verticalement)
     for (m=0; m<size_ship; m++){
-        ship[m][0] = m; //remplit la colonne no 0 de ship avec les lignes sur lequel il se trouve dans matrice
+        ship[m][0] = m; //remplit la colonne No 0 de ship avec les lignes sur lequel il se trouve dans matrice
     }
 
     //Creation d'une sauvegarde du ship (pour la rotation)
