@@ -273,16 +273,10 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             matrice[ship[n][0]][ship[n][1]]=symbole_ship;
         }
 
-        //printf("Avant kbhit\n");
-
         //Boucle d'affichage des deux matrices pour clignotement
         //while (!_kbhit()) {
-          //getchar();
-          //printf("No key pressed yet\n");
 
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                system("clear");
-
                 //color(14, 0);
                 printf("\n       -------------- (YOUR FLEET) --------------\n\n");
                 //color(15, 0);
@@ -390,7 +384,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             }**/
         //}
 
-
         //Turnaround to make Getch work: start a window, get input in that window, close window
         win = initscr();
         noecho();
@@ -399,6 +392,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
         c = getch();
 
+        system("clear");
         endwin();
 
         switchmatrice = 1;
