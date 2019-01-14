@@ -191,6 +191,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 {
     //WINDOW for Getch() function
     WINDOW* win;
+    int c;
 
     short cpt_pblm = 0;
     short ship_done = 0;
@@ -201,7 +202,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     short n = 0;
     short o = 0;
     short p = 0;
-    int touche;
     char contenu_case;
     char symbole_ship = '0';
     char symbole_ship_maj = '0';
@@ -390,13 +390,13 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
         cbreak();
         keypad(win, true);
 
-        touche = getch();
+        c = getch();
 
         system("clear");
         endwin();
 
         switchmatrice = 1;
-        switch(touche) {
+        switch(c) {
             case KEY_UP:
             case 'z':
                 if(isPossibleMove('z', ship, size_ship, nb_colonnes, nb_lignes)){
@@ -429,7 +429,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case 'e': touche = 'a';
+            case 'e': c = 'a';
             case 'a':
                 if(size_ship==2){
                     if(ship[1][0]!=ship[0][0]){ //vertical
@@ -648,7 +648,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 cpt_pblm = 0;
             break;
             default :
-                printf("Key is : %d", (short)touche);
+                printf("Key is : %d", (short)c);
             break;
         }
     }
@@ -679,7 +679,6 @@ char** fireOnCoordonnees(short ligne, short colonne, char** matrice)
 }
 
 coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
-    WINDOW* win;
 
     short votreboard = 0;
     short cpt_pblm = 0;
@@ -688,7 +687,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     short j = 0;
     short k = 0;
     short o = 0;
-    int touche;
+    char touche;
     char contenu_case;
     short size_ship = 1;
 
@@ -721,9 +720,9 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
         }
 
         //Boucle d'affichage des deux matrices pour clignotement
-        //while (!_kbhit()) {
+        while (!_kbhit()) {
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                //system("clear");
+                system("clear");
 
                 //color(14, 0);
                 printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
@@ -857,22 +856,10 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 tempsaffmatrices = clock() + tempssupp;
                 switchmatrice = 0;
             }**/
-        //}
-
-        //Turnaround to make Getch work: start a window, get input in that window, close window
-        win = initscr();
-        noecho();
-        cbreak();
-        keypad(win, true);
-
+        }
         touche = getch();
-
-        system("clear");
-        endwin();
-
         switchmatrice = 1;
         switch(touche) {
-            case KEY_UP:
             case 'z':
                 if(isPossibleMove('z', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -880,7 +867,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     }
                 }
             break;
-            case KEY_LEFT:
             case 'q':
                 if(isPossibleMove('q', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -888,7 +874,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     }
                 }
             break;
-            case KEY_RIGHT:
             case 'd':
                 if(isPossibleMove('d', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -896,7 +881,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     }
                 }
             break;
-            case KEY_DOWN:
             case 's':
                 if(isPossibleMove('s', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -905,7 +889,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 }
             break;
 
-            case (short) 10 : //touche Entree
+            case (short) 13 : //touche Entree
                 for(o=0; o<size_ship; o++){
                     if((matrice_saved[curseur[o][0]][curseur[o][1]] == 'X')
                         ||(matrice_saved[curseur[o][0]][curseur[o][1]] == 'c')
