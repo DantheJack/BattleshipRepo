@@ -3,7 +3,7 @@
 #include <time.h>
 #include "coordonnees.h"
 #include "boardtools.h"
-#include <curses.h>
+#include <ncurses.h>
 
 /**
  Linux (POSIX) implementation of _kbhit().
@@ -193,6 +193,14 @@ short isPossibleMove(char deplacement, short** ship, short size_ship, short nb_c
 
 char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_ship)
 {
+    WINDOW* win;
+    int c;
+    win = initscr();
+    noecho();
+    cbreak();
+    keypad(win, true);
+
+
     short cpt_pblm = 0;
     short ship_done = 0;
     short i = 0;
@@ -274,8 +282,13 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             matrice[ship[n][0]][ship[n][1]]=symbole_ship;
         }
 
+        //printf("Avant kbhit\n");
+
         //Boucle d'affichage des deux matrices pour clignotement
         while (!_kbhit()) {
+          //getchar();
+          //printf("No key pressed yet\n");
+
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
                 system("clear");
 
@@ -385,9 +398,21 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 switchmatrice = 0;
             }**/
         }
-        touche = getch();
+
+        printf("Apres kbhit - Avant Getch\n");
+
+        win = initscr();
+        noecho();
+        cbreak();
+        keypad(win, true);
+
+        c = getch();
+
+        endwin();
+
         switchmatrice = 1;
-        switch(touche) {
+        switch(c) {
+            case KEY_UP:
             case 'z':
                 if(isPossibleMove('z', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -395,6 +420,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
+            case KEY_LEFT:
             case 'q':
                 if(isPossibleMove('q', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -402,6 +428,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
+            case KEY_RIGHT:
             case 'd':
                 if(isPossibleMove('d', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -409,6 +436,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
+            case KEY_DOWN:
             case 's':
                 if(isPossibleMove('s', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -639,6 +667,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             break;
         }
     }
+
     return matrice;
 }
 
@@ -1131,6 +1160,8 @@ int _kbhit() {
     static const int STDIN = 0;
     static bool initialized = false;
 
+    //printf("in kbhit\n");
+
     if (! initialized) {
         // Use termios to turn off line buffering
         struct termios term;
@@ -1143,5 +1174,7 @@ int _kbhit() {
 
     int bytesWaiting;
     ioctl(STDIN, FIONREAD, &bytesWaiting);
+
+    //printf("returning nb of char in buffer: %d\n", bytesWaiting);
     return bytesWaiting;
 }
