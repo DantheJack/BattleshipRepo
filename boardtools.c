@@ -189,10 +189,9 @@ short isPossibleMove(char deplacement, short** ship, short size_ship, short nb_c
 
 char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_ship)
 {
+    //WINDOW for Getch() function
     WINDOW* win;
     int c;
-
-
 
     short cpt_pblm = 0;
     short ship_done = 0;
@@ -203,7 +202,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     short n = 0;
     short o = 0;
     short p = 0;
-    char touche;
     char contenu_case;
     char symbole_ship = '0';
     char symbole_ship_maj = '0';
@@ -392,6 +390,8 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             }**/
         //}
 
+
+        //Turnaround to make Getch work: start a window, get input in that window, close window
         win = initscr();
         noecho();
         cbreak();
@@ -435,7 +435,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case 'e': touche = 'a';
+            case 'e': c = 'a';
             case 'a':
                 if(size_ship==2){
                     if(ship[1][0]!=ship[0][0]){ //vertical
@@ -635,7 +635,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case (short) 13 : //touche Entree
+            case (short) 10 : //touche Entree
                 for(o=0; o<size_ship; o++){
                     if(matrice_saved[ship[o][0]][ship[o][1]] != 0)
                     {
@@ -654,7 +654,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 cpt_pblm = 0;
             break;
             default :
-                //printf("Key is : %d", (short)touche);
+                printf("Key is : %d", (short)c);
             break;
         }
     }
