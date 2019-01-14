@@ -1,4 +1,4 @@
-SRCS = boardtools.c main.c
+SRCS = boardtools.c main.c printtools.c
 
 # lncurses is the library for curses.h
 LIBS = -lncurses

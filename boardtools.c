@@ -3,6 +3,7 @@
 #include <time.h>
 #include "coordonnees.h"
 #include "boardtools.h"
+#include "printtools.h"
 #include <ncurses.h>
 
 /**
@@ -54,17 +55,17 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     short k = 0;
     char contenu_case;
     system("clear");
-    //color(14, 0);
+    printColorYellow();
     printf("\n         ------------- BATTLESHIP --------------\n\n");
-    //color(15, 0);
+    printColorWhite();
 
     //Label des colonnes
-    //color(11, 0);
+    printColorCyan();
     printf("     ");
     for (i=0; i<nb_colonnes; i++) {
         printf("   %c", i+65);
     }
-    //color(15, 0);
+    printColorWhite();
 
     //1st ligne de la grille
     printf("\n      %s%s%s%s", LT, HL, HL, HL);
@@ -77,10 +78,10 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     for (i=0; i<nb_lignes; i++) {
 
         //Label des lignes
-        //color(11, 0);
+        printColorCyan();
         if(i<10) printf("\n    %d ", i);
         else printf("\n    %d", i);
-        //color(15, 0);
+        printColorWhite();
 
         //1st ligne de separation verticale
         printf("%s ", VL);
@@ -150,7 +151,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
             printf("%s", RB);
         }
     }
-    //color(14, 0);
+    printColorYellow();
     printf("\n\n                  - (YOUR FLEET) -          \n\n");
     return 1;
 }
@@ -277,16 +278,16 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
         //while (!_kbhit()) {
 
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                //color(14, 0);
+                printColorYellow();
                 printf("\n       -------------- (YOUR FLEET) --------------\n\n");
-                //color(15, 0);
+                printColorWhite();
                 //Label des colonnes
-                //color(11, 0);
+                printColorCyan();
                 printf("     ");
                 for (i=0; i<nb_colonnes; i++) {
                     printf("   %c", i+65);
                 }
-                //color(15, 0);
+                printColorWhite();
 
                 //1st ligne de la grille
                 printf("\n      %s%s%s%s", LT, HL, HL, HL);
@@ -299,10 +300,10 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 for (i=0; i<nb_lignes; i++) {
 
                     //Label des lignes
-                    //color(11, 0);
+                    printColorCyan();
                     if(i<10) printf("\n    %d ", i);
                     else printf("\n    %d", i);
-                    //color(15, 0);
+                    printColorWhite();
 
                     //1st ligne de separation verticale
                     printf("%s ", VL);
@@ -312,7 +313,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
                         contenu_case = matrice[i][j];
 
-                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) {}//color(12, 0);
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) {}printColorRed();
 
                         switch (contenu_case) {
                             case 0 :
@@ -348,7 +349,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                                 printf("u");
                                 break;
                         }
-                        //color(15, 0);
+                        printColorWhite();
                         printf(" %s ", VL);
                     }
 
@@ -368,7 +369,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                         printf("%s", RB);
                     }
                 }
-                //color(15, 0);
+                printColorWhite();
                 printf("\n Press A or E to rotate, move your ship with Z, Q, S and D.");
                 printf("\n                 Press Enter to confirm.\n");
 
@@ -725,16 +726,16 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
             if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
                 //system("clear");
 
-                //color(14, 0);
+                printColorYellow();
                 printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
-                //color(15, 0);
+                printColorWhite();
                 //Label des colonnes
-                //color(11, 0);
+                printColorCyan();
                 printf("     ");
                 for (i=0; i<nb_colonnes; i++) {
                     printf("   %c", i+65);
                 }
-                //color(15, 0);
+                printColorWhite();
 
                 //1st ligne de la grille
                 printf("\n      %s%s%s%s", LT, HL, HL, HL);
@@ -747,17 +748,17 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 for (i=0; i<nb_lignes; i++) {
 
                     //Label des lignes
-                    //color(11, 0);
+                    printColorCyan();
                     if(i<10) printf("\n    %d ", i);
                     else printf("\n    %d", i);
-                    //color(15, 0);
+                    printColorWhite();
 
                     //1st ligne de separation verticale
                     printf("%s", VL);
                     if (curseur[0][1]==0 && curseur[0][0]==i){
-                        //color(14, 0);
+                        printColorYellow();
                         printf("%c", 62);
-                        //color(15, 0);
+                        printColorWhite();
                     }
                     else printf(" ");
 
@@ -810,19 +811,19 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                             printf("%c", '#');
                             break;
                         }
-                        //color(15, 0);
+                        printColorWhite();
                         if (curseur[0][0]==i && curseur[0][1]==j){
-                            //color(14, 0);
+                            printColorYellow();
                             printf("%c", 60);
-                            //color(15, 0);
+                            printColorWhite();
                             printf("%s ", VL);
                         }
                         else if (curseur[0][0]==i && curseur[0][1]==j+1){
 
                             printf(" %s", VL);
-                            //color(14, 0);
+                            printColorYellow();
                             printf("%c", 62);
-                            //color(15, 0);
+                            printColorWhite();
                         }
                         else printf(" %s ", VL);
                     }
@@ -843,7 +844,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                         printf("%s", RB);
                     }
                 }
-                //color(15, 0);
+                printColorWhite();
                 printf("\n         Move your reticule with Z, Q, S and D.");
                 printf("\n                  Press Enter to confirm.");
 
@@ -991,12 +992,12 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
     printf("\n           ------------- BATTLESHIP --------------\n\n");
 
     //Label des colonnes
-    //color(11, 0);
+    printColorCyan();
     printf("     ");
     for (i=0; i<nb_colonnes; i++) {
         printf("   %c", i+65);
     }
-    //color(15, 0);
+    printColorWhite();
 
     //1st ligne de la grille
     printf("\n      %s%s%s%s", LT, HL, HL, HL);
@@ -1009,10 +1010,10 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
     for (i=0; i<nb_lignes; i++) {
 
         //Label des lignes
-        //color(11, 0);
+        printColorCyan();
         if(i<10) printf("\n    %d ", i);
         else printf("\n    %d", i);
-        //color(15, 0);
+        printColorWhite();
 
         //1st ligne de separation verticale
         printf("%s ", VL);
@@ -1039,7 +1040,7 @@ void printBattleShipMessage(char* chaine, char** matrice, short nb_colonnes, sho
             printf("%s", RB);
         }
     }
-    //color(14, 0);
+    printColorYellow();
     printf("\n\n                      - (YOUR FLEET) -          \n\n");
     getchar();
 }
