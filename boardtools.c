@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include "printtools.h"
 #include "coordonnees.h"
 #include "boardtools.h"
@@ -206,11 +205,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             ship_s[i][j]=ship[i][j];
         }
     }
-    /**
-    //Initialisation du temps d'affichage
-    clock_t tempsaffmatrices = clock() + tempssupp;**/
-    short switchmatrice = 1; // 1 pour matrice_saved, 0 pour matrice
-
 
     while(ship_done != 1){
 
@@ -234,119 +228,104 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             matrice[ship[n][0]][ship[n][1]]=symbole_ship;
         }
 
-        //Boucle d'affichage des deux matrices pour clignotement
-        while (!kbhit()) {
-            if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                system("cls");
+        system("cls");
 
-                color(14, 0);
-                printf("\n       -------------- (YOUR FLEET) --------------\n\n");
-                color(15, 0);
-                //Label des colonnes
-                color(11, 0);
-                printf("     ");
-                for (i=0; i<nb_colonnes; i++) {
-                    printf("   %c", i+65);
+        color(14, 0);
+        printf("\n       -------------- (YOUR FLEET) --------------\n\n");
+        color(15, 0);
+        //Label des colonnes
+        color(11, 0);
+        printf("     ");
+        for (i=0; i<nb_colonnes; i++) {
+            printf("   %c", i+65);
+        }
+        color(15, 0);
+
+        //1st ligne de la grille
+        printf("\n      %c%c%c%c", 218, 196, 196, 196);
+        for (i=0; i<nb_colonnes-1; i++) {
+            printf("%c%c%c%c", 194, 196, 196, 196);
+        }
+        printf("%c", 191);
+
+        //Contenu
+        for (i=0; i<nb_lignes; i++) {
+
+            //Label des lignes
+            color(11, 0);
+            if(i<10) printf("\n    %d ", i);
+            else printf("\n    %d", i);
+            color(15, 0);
+
+            //1st ligne de separation verticale
+            printf("%c ", 179);
+
+            //Switch contenu de la case
+            for (j=0; j<nb_colonnes; j++) {
+
+                contenu_case = matrice[i][j];
+
+                if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) color(12, 0);
+
+                switch (contenu_case) {
+                    case 0 :
+                        printf(" "); //caractere représentant l'eau
+                        break;
+                    case 'X' :
+                        printf("X"); //caractere représentant un tir adverse dans l'eau
+                    case 'C' :
+                        printf("C");
+                        break;
+                    case 'c' :
+                        printf("C");
+                        break;
+                    case 'B' :
+                        printf("B");
+                        break;
+                    case 'b' :
+                        printf("B");
+                        break;
+                    case 'S' :
+                        printf("S");
+                        break;
+                    case 's' :
+                        printf("S");
+                        break;
+                    case 'D' :
+                        printf("D");
+                        break;
+                    case 'd' :
+                        printf("D");
+                        break;
+                    default :
+                        printf("u");
+                        break;
                 }
                 color(15, 0);
-
-                //1st ligne de la grille
-                printf("\n      %c%c%c%c", 218, 196, 196, 196);
-                for (i=0; i<nb_colonnes-1; i++) {
-                    printf("%c%c%c%c", 194, 196, 196, 196);
-                }
-                printf("%c", 191);
-
-                //Contenu
-                for (i=0; i<nb_lignes; i++) {
-
-                    //Label des lignes
-                    color(11, 0);
-                    if(i<10) printf("\n    %d ", i);
-                    else printf("\n    %d", i);
-                    color(15, 0);
-
-                    //1st ligne de separation verticale
-                    printf("%c ", 179);
-
-                    //Switch contenu de la case
-                    for (j=0; j<nb_colonnes; j++) {
-
-                        contenu_case = matrice[i][j];
-
-                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) color(12, 0);
-
-                        switch (contenu_case) {
-                            case 0 :
-                                printf(" "); //caractere représentant l'eau
-                                break;
-                            case 'X' :
-                                printf("X"); //caractere représentant un tir adverse dans l'eau
-                            case 'C' :
-                                printf("C");
-                                break;
-                            case 'c' :
-                                printf("C");
-                                break;
-                            case 'B' :
-                                printf("B");
-                                break;
-                            case 'b' :
-                                printf("B");
-                                break;
-                            case 'S' :
-                                printf("S");
-                                break;
-                            case 's' :
-                                printf("S");
-                                break;
-                            case 'D' :
-                                printf("D");
-                                break;
-                            case 'd' :
-                                printf("D");
-                                break;
-                            default :
-                                printf("u");
-                                break;
-                        }
-                        color(15, 0);
-                        printf(" %c ", 179);
-                    }
-
-                    //Ligne de separation horizontale
-                    if(i != nb_lignes-1){
-                        printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
-                        for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
-                        }
-                        printf("%c", 180);
-                    }
-                    else{ //Dernière ligne de la grille
-                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
-                        for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
-                        }
-                        printf("%c", 217);
-                    }
-                }
-                color(15, 0);
-                printf("\n Press A or E to rotate, move your ship with Z, Q, S and D.");
-                printf("\n                 Press Enter to confirm.\n");
-
-                /**tempsaffmatrices = clock() + tempssupp;**/
-                switchmatrice = 0;
+                printf(" %c ", 179);
             }
 
-            /**if(clock() >= tempsaffmatrices && switchmatrice == 1){
-                system("cls");
-                printBoard(matrice_saved, nb_colonnes, nb_lignes, 1);
-                tempsaffmatrices = clock() + tempssupp;
-                switchmatrice = 0;
-            }**/
+            //Ligne de separation horizontale
+            if(i != nb_lignes-1){
+                printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
+                for (k=0; k<nb_colonnes-1; k++) {
+                    printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
+                }
+                printf("%c", 180);
+            }
+            else{ //Dernière ligne de la grille
+                printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
+                for (k=0; k<nb_colonnes-1; k++) {
+                    printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
+                }
+                printf("%c", 217);
+            }
         }
+        color(15, 0);
+        printf("\n Press A or E to rotate, move your ship with Z, Q, S and D.");
+        printf("\n                 Press Enter to confirm.\n");
+
         touche = getch();
-        switchmatrice = 1;
         switch(touche) {
             case 'z':
                 if(isPossibleMove('z', ship, size_ship, nb_colonnes, nb_lignes)){
@@ -652,10 +631,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     curseur[0][0] = 0;
     curseur[0][1] = 0;
 
-    //Initialisation du temps d'affichage
-    clock_t tempsaffmatrices = clock() + tempssupp;
-    short switchmatrice = 1; // 1 pour matrice_saved, 0 pour matrice
-
     while(tir_done != 1){
 
         //Boucle remplaçant matrice par sa version matrice_saved
@@ -664,147 +639,131 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 matrice[i][j]=matrice_saved[i][j];
             }
         }
+        system("cls");
 
-        //Boucle d'affichage des deux matrices pour clignotement
-        while (!kbhit()) {
-            if(/**clock() >= tempsaffmatrices && **/switchmatrice == 1){
-                system("cls");
+        color(14, 0);
+        printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
+        color(15, 0);
+        //Label des colonnes
+        color(11, 0);
+        printf("     ");
+        for (i=0; i<nb_colonnes; i++) {
+            printf("   %c", i+65);
+        }
+        color(15, 0);
 
+        //1st ligne de la grille
+        printf("\n      %c%c%c%c", 218, 196, 196, 196);
+        for (i=0; i<nb_colonnes-1; i++) {
+            printf("%c%c%c%c", 194, 196, 196, 196);
+        }
+        printf("%c", 191);
+
+        //Contenu
+        for (i=0; i<nb_lignes; i++) {
+
+            //Label des lignes
+            color(11, 0);
+            if(i<10) printf("\n    %d ", i);
+            else printf("\n    %d", i);
+            color(15, 0);
+
+            //1st ligne de separation verticale
+            printf("%c", 179);
+            if (curseur[0][1]==0 && curseur[0][0]==i){
                 color(14, 0);
-                printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
+                printf("%c", 62);
                 color(15, 0);
-                //Label des colonnes
-                color(11, 0);
-                printf("     ");
-                for (i=0; i<nb_colonnes; i++) {
-                    printf("   %c", i+65);
-                }
-                color(15, 0);
+            }
+            else printf(" ");
 
-                //1st ligne de la grille
-                printf("\n      %c%c%c%c", 218, 196, 196, 196);
-                for (i=0; i<nb_colonnes-1; i++) {
-                    printf("%c%c%c%c", 194, 196, 196, 196);
-                }
-                printf("%c", 191);
+            //Switch contenu de la case
+            for (j=0; j<nb_colonnes; j++) {
 
-                //Contenu
-                for (i=0; i<nb_lignes; i++) {
+                contenu_case = matrice[i][j];
 
-                    //Label des lignes
-                    color(11, 0);
-                    if(i<10) printf("\n    %d ", i);
-                    else printf("\n    %d", i);
-                    color(15, 0);
+                switch (contenu_case) {
+                case 0 :
+                    printf(" "); //caractere représentant l'eau
 
-                    //1st ligne de separation verticale
-                    printf("%c", 179);
-                    if (curseur[0][1]==0 && curseur[0][0]==i){
-                        color(14, 0);
-                        printf("%c", 62);
-                        color(15, 0);
-                    }
+                    break;
+                case 'X' :
+                    printf("X"); //caractere représentant un tir adverse dans l'eau
+                    break;
+                case 'C' :
+                    if(votreboard) printf("C");
                     else printf(" ");
-
-                    //Switch contenu de la case
-                    for (j=0; j<nb_colonnes; j++) {
-
-                        contenu_case = matrice[i][j];
-
-                        switch (contenu_case) {
-                        case 0 :
-                            printf(" "); //caractere représentant l'eau
-
-                            break;
-                        case 'X' :
-                            printf("X"); //caractere représentant un tir adverse dans l'eau
-                            break;
-                        case 'C' :
-                            if(votreboard) printf("C");
-                            else printf(" ");
-                            break;
-                        case 'c' :
-                            if(votreboard) printERROR("C");
-                            else printERROR("X");
-                            break;
-                        case 'B' :
-                            if(votreboard) printf("B");
-                            else printf(" ");
-                            break;
-                        case 'b' :
-                            if(votreboard) printERROR("B");
-                            else printERROR("X");
-                            break;
-                        case 'S' :
-                            if(votreboard) printf("S");
-                            else printf(" ");
-                            break;
-                        case 's' :
-                            if(votreboard) printERROR("S");
-                            else printERROR("X");
-                            break;
-                        case 'D' :
-                            if(votreboard) printf("D");
-                            else printf(" ");
-                            break;
-                        case 'd' :
-                            if(votreboard) printERROR("D");
-                            else printERROR("X");
-                            break;
-                        default :
-                            printf("%c", 170);
-                            break;
-                        }
-                        color(15, 0);
-                        if (curseur[0][0]==i && curseur[0][1]==j){
-                            color(14, 0);
-                            printf("%c", 60);
-                            color(15, 0);
-                            printf("%c ", 179);
-                        }
-                        else if (curseur[0][0]==i && curseur[0][1]==j+1){
-
-                            printf(" %c", 179);
-                            color(14, 0);
-                            printf("%c", 62);
-                            color(15, 0);
-                        }
-                        else printf(" %c ", 179);
-                    }
-
-                    //Ligne de separation horizontale
-                    if(i != nb_lignes-1){
-                        printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
-                        for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
-                        }
-                        printf("%c", 180);
-                    }
-                    else{ //Dernière ligne de la grille
-                        printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
-                        for (k=0; k<nb_colonnes-1; k++) {
-                            printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
-                        }
-                        printf("%c", 217);
-                    }
+                    break;
+                case 'c' :
+                    if(votreboard) printERROR("C");
+                    else printERROR("X");
+                    break;
+                case 'B' :
+                    if(votreboard) printf("B");
+                    else printf(" ");
+                    break;
+                case 'b' :
+                    if(votreboard) printERROR("B");
+                    else printERROR("X");
+                    break;
+                case 'S' :
+                    if(votreboard) printf("S");
+                    else printf(" ");
+                    break;
+                case 's' :
+                    if(votreboard) printERROR("S");
+                    else printERROR("X");
+                    break;
+                case 'D' :
+                    if(votreboard) printf("D");
+                    else printf(" ");
+                    break;
+                case 'd' :
+                    if(votreboard) printERROR("D");
+                    else printERROR("X");
+                    break;
+                default :
+                    printf("%c", 170);
+                    break;
                 }
                 color(15, 0);
-                printf("\n         Move your reticule with Z, Q, S and D.");
-                printf("\n                  Press Enter to confirm.");
+                if (curseur[0][0]==i && curseur[0][1]==j){
+                    color(14, 0);
+                    printf("%c", 60);
+                    color(15, 0);
+                    printf("%c ", 179);
+                }
+                else if (curseur[0][0]==i && curseur[0][1]==j+1){
 
-                /**tempsaffmatrices = clock() + tempssupp;**/
-                switchmatrice = 0;
+                    printf(" %c", 179);
+                    color(14, 0);
+                    printf("%c", 62);
+                    color(15, 0);
+                }
+                else printf(" %c ", 179);
             }
 
-            /**if(clock() >= tempsaffmatrices && switchmatrice == 1){
-                system("cls");
-                printBoard(matrice_saved, nb_colonnes, nb_lignes, 1);
-                tempsaffmatrices = clock() + tempssupp;
-                switchmatrice = 0;
-            }**/
+            //Ligne de separation horizontale
+            if(i != nb_lignes-1){
+                printf("\n      %c%c%c%c", 195, 196, 196, 196); //premiere case de la ligne
+                for (k=0; k<nb_colonnes-1; k++) {
+                    printf("%c%c%c%c", 197, 196, 196, 196); //reste de la ligne
+                }
+                printf("%c", 180);
+            }
+            else{ //Dernière ligne de la grille
+                printf("\n      %c%c%c%c", 192, 196, 196, 196); //premiere case de la dernière ligne
+                for (k=0; k<nb_colonnes-1; k++) {
+                    printf("%c%c%c%c", 193, 196, 196, 196); //reste de la dernière ligne
+                }
+                printf("%c", 217);
+            }
         }
+        color(15, 0);
+        printf("\n         Move your reticule with Z, Q, S and D.");
+        printf("\n                  Press Enter to confirm.");
+
         touche = getch();
-        switchmatrice = 1;
         switch(touche) {
             case 'z':
                 if(isPossibleMove('z', curseur, size_ship, nb_colonnes, nb_lignes)){

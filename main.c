@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "printtools.h"
-#include <time.h>
 #include "boardtools.h"
 #include "coordonnees.h"
 #include <windows.h>
