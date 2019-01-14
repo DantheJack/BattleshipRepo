@@ -161,25 +161,21 @@ short isPossibleMove(char deplacement, short** ship, short size_ship, short nb_c
     switch(deplacement){
         case 'z':
             if(ship[0][0] == 0){
-                printf("c'est pas possible d'aller vers le haut");
                 return 0;
             }
         break;
         case 'q':
             if(ship[0][1] == 0){
-                printf("c'est pas possible d'aller a gauche");
                 return 0;
             }
         break;
         case 'd':
             if(ship[size_ship-1][1] == nb_lignes-1){
-                printf("c'est pas possible d'aller a droite");
                 return 0;
             }
         break;
         case 's':
             if(ship[size_ship-1][0] == nb_colonnes-1){
-                printf("c'est pas possible d'aller vers le bas");
                 return 0;
             }
         break;
@@ -195,10 +191,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 {
     WINDOW* win;
     int c;
-    win = initscr();
-    noecho();
-    cbreak();
-    keypad(win, true);
+
 
 
     short cpt_pblm = 0;
@@ -285,7 +278,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
         //printf("Avant kbhit\n");
 
         //Boucle d'affichage des deux matrices pour clignotement
-        while (!_kbhit()) {
+        //while (!_kbhit()) {
           //getchar();
           //printf("No key pressed yet\n");
 
@@ -397,9 +390,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 tempsaffmatrices = clock() + tempssupp;
                 switchmatrice = 0;
             }**/
-        }
-
-        printf("Apres kbhit - Avant Getch\n");
+        //}
 
         win = initscr();
         noecho();
@@ -663,7 +654,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 cpt_pblm = 0;
             break;
             default :
-                printf("Key is : %d", (short)touche);
+                //printf("Key is : %d", (short)touche);
             break;
         }
     }
