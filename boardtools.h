@@ -13,4 +13,7 @@ void** creerMatrice(short nb_colonnes, short nb_lignes);
 char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes);
 void libererMatrice(short** matrice, short nb_lignes);
 
+coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes);
+short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coordonnees_tir dernier_tir, short votretir);
+
 #endif // BOARDTOOLS_H
