@@ -32,6 +32,7 @@ int main()
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);*/
+
     printf("going to place ship\n");
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
     printf("shipPlaced\n");
