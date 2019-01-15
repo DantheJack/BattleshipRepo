@@ -1,7 +1,4 @@
 SRCS = boardtools.c main.c printtools.c
 
-# lncurses is the library for curses.h
-LIBS = -lncurses
-
 all: $(SRCS)
-	gcc -o Battleship $(SRCS) $(LIBS) -I.
+	gcc -o Battleship $(SRCS) -I.

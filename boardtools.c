@@ -4,15 +4,9 @@
 #include "boardtools.h"
 #include "printtools.h"
 #include <unistd.h>
+#include <time.h>
 
-/**
- Linux (POSIX) implementation of _kbhit().
- Morgan McGuire, morgan@cs.brown.edu
- */
-#include <sys/select.h>
 #include <termios.h>
-#include <stropts.h>
-
 #include <sys/ioctl.h>
 
 //Linux Box-Drawing Characters
@@ -386,7 +380,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
         touche = _getch();
 
         switch(touche) {
-            case KEY_UP:
             case 'z':
                 if(isPossibleMove('z', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -394,7 +387,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case KEY_LEFT:
             case 'q':
                 if(isPossibleMove('q', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -402,7 +394,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case KEY_RIGHT:
             case 'd':
                 if(isPossibleMove('d', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -410,7 +401,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case KEY_DOWN:
             case 's':
                 if(isPossibleMove('s', ship, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -637,7 +627,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 cpt_pblm = 0;
             break;
             default :
-                printf("Key is : %d", (short)touche);
+                //printf("Key is : %d", (short)touche);
             break;
         }
     }
@@ -831,7 +821,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
         touche = _getch();
 
         switch(touche) {
-            case KEY_UP:
             case 'z':
                 if(isPossibleMove('z', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -839,7 +828,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     }
                 }
             break;
-            case KEY_LEFT:
             case 'q':
                 if(isPossibleMove('q', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -847,7 +835,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     }
                 }
             break;
-            case KEY_RIGHT:
             case 'd':
                 if(isPossibleMove('d', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -855,7 +842,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     }
                 }
             break;
-            case KEY_DOWN:
             case 's':
                 if(isPossibleMove('s', curseur, size_ship, nb_colonnes, nb_lignes)){
                     for(i=0; i<size_ship; i++){
@@ -887,7 +873,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                 cpt_pblm = 0;
             break;
             default :
-                printf("Key is : %d", (short)touche);
+                //printf("Key is : %d", (short)touche);
             break;
         }
     }
