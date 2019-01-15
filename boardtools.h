@@ -10,7 +10,7 @@ char** place_a_ship_here(char** matrice, short nb_colonnes, short nb_lignes, sho
 coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes);
 
 void** creerMatrice(short nb_colonnes, short nb_lignes);
-char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes);
+char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes, short nb_ships);
 void libererMatrice(short** matrice, short nb_lignes);
 
 coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes);

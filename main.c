@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include "printtools.h"
 #include "boardtools.h"
 #include "coordonnees.h"
 #include <windows.h>
-#define COLONNES 11
-#define LIGNES 11
+#define COLONNES 6
+#define LIGNES 6
 #define SIZE_MAN_O_WAR 5
 #define SIZE_NAVIRE_DE_LIGNE 4
 #define SIZE_FREGATE 3
 #define SIZE_SLOOP 4
-
-
 
 int main()
 {
@@ -38,7 +37,7 @@ int main()
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
     matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 5);*/
-    place_randomly(matrice_J1, COLONNES, LIGNES);
+    place_randomly(matrice_J1, COLONNES, LIGNES, 5);
 
     /***** ETAPE 3 : DEMANDER A JOUEUR 2 DE PLACER SA FLOTTE **************/
     system("cls");    printCOM("\n\n      VEUILLEZ PASSEZ L'ORDINATEUR A JOUEUR 2\n");    getchar();
@@ -52,7 +51,7 @@ int main()
     matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 4);
     matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 4);
     matrice_J2 = placeShip(matrice_J2, COLONNES, LIGNES, 5);*/
-    place_randomly(matrice_J2, COLONNES, LIGNES);
+    place_randomly(matrice_J2, COLONNES, LIGNES, 5);
 
     /***** ETAPE 4 : DONNER LE BOARD DE JOUEUR 2 A JOUEUR 1 ***************/
 
@@ -119,8 +118,8 @@ int main()
     printf("\n\nWE GOT A WINNER ! CONGRATULATIONS, PLAYER %hd !", we_got_winner);
     getchar();
 
-    libererMatrice(matrice_J1, LIGNES);
-    libererMatrice(matrice_J2, LIGNES);
+    libererMatrice((short**) matrice_J1, LIGNES);
+    libererMatrice((short**) matrice_J2, LIGNES);
 
     return 0;
 
