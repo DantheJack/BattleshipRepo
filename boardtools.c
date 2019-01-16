@@ -14,7 +14,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     char contenu_case;
     system("cls");
     color(14, 0);
-    printf("\n         ------------- BATTLESHIP --------------\n\n");
+    printf("\n        ------------- BATTLESHIP --------------\n\n");
     color(15, 0);
 
     //Label des colonnes
@@ -818,7 +818,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     tir_done = 1;
                 }
                 else{
-                    printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
+                    //printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
                 }
                 cpt_pblm = 0;
             break;
@@ -830,106 +830,118 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     return tir;
 }
 
-coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes){
+coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes, short difficulte){
     short o = 0;
     short i = 0;
     short j = 0;
     short cpt_pblm = 0;
-    short size_ship = 1;
     short tir_done = 0;
     short sens_de_tir = 0;
     coordonnees_tir tir;
     //Creation d'un curseur
-    short** curseur = (short**)creerMatrice(2, 1);
-    curseur[0][0] = 0;
-    curseur[0][1] = 0;
+    short curseur[2];
+    curseur[0] = 0;
+    curseur[1] = 0;
     srand((unsigned short)time(NULL)); // initialisation de rand
-    short bullseye = rand()%3;
-    while (tir_done != 1){
-        if(bullseye == 1){
-            curseur[0][0] = rand()%nb_lignes;
-            curseur[0][1] = rand()%nb_colonnes;
-            sens_de_tir = rand()%1;
-            if(sens_de_tir==0){
-                printf("sens_de_tir = 0");
-                getch();
-                for(i=0; i<nb_lignes; i++){
-                    for(j=0; j<nb_colonnes; j++){
-                        if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
-                           (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
-                            curseur[0][0] = i;
-                            curseur[0][1] = j;
-                        }
-                    }
-                }
-            }
-            if(sens_de_tir==1){
-                printf("sens_de_tir = 1");
-                getch();
-                for(i=0; i<nb_lignes; i++){
-                    for(j=0; j<nb_colonnes; j++){
-                        if((matrice[nb_lignes-i][j] == 'C')||(matrice[nb_lignes-i][j] == 'B')||
-                           (matrice[nb_lignes-i][j] == 'S')||(matrice[nb_lignes-i][j] == 'D')){
-                            curseur[0][0] = i;
-                            curseur[0][1] = j;
-                        }
-                    }
-                }
-            }
-            if(sens_de_tir==2){
-                printf("sens_de_tir = 2");
-                getch();
-                for(i=0; i<nb_lignes; i++){
-                    for(j=0; j<nb_colonnes; j++){
-                        if((matrice[i][nb_colonnes-j] == 'C')||(matrice[i][nb_colonnes-j] == 'B')||
-                           (matrice[i][nb_colonnes-j] == 'S')||(matrice[i][nb_colonnes-j] == 'D')){
-                            curseur[0][0] = i;
-                            curseur[0][1] = j;
-                        }
-                    }
-                }
-            }
-            if(sens_de_tir==3){
-                printf("sens_de_tir = 3");
-                getch();
-                for(i=0; i<nb_lignes; i++){
-                    for(j=0; j<nb_colonnes; j++){
-                        if((matrice[nb_lignes-i][nb_colonnes-j] == 'C')||(matrice[nb_lignes-i][nb_colonnes-j] == 'B')||
-                           (matrice[nb_lignes-i][nb_colonnes-j] == 'S')||(matrice[nb_lignes-i][nb_colonnes-j] == 'D')){
-                            curseur[0][0] = nb_lignes-i;
-                            curseur[0][1] = j;
-                        }
+    short bullseye = rand_a_b(0, difficulte);
+    if(bullseye == 1){/*
+        curseur[0] = rand_a_b(0, nb_lignes);
+        curseur[1] = rand_a_b(0, nb_colonnes);
+        sens_de_tir = rand_a_b(0, 3);
+        if(sens_de_tir==0){
+            printf("sens de tir = %hd", sens_de_tir); getch();
+            for(i=0; i<nb_lignes; i++){
+                for(j=0; j<nb_colonnes; j++){
+                    printf("-%c-", matrice[i][j]);
+                    getch();
+                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
+                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
+                        curseur[0] = i;
+                        curseur[1] = j;
+                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                        tir.a_la_ligne = curseur[0];
+                        tir.a_la_colonne = curseur[1];
+                        return tir;
                     }
                 }
             }
         }
-        else{
-            curseur[0][0] = rand()%nb_lignes;
-            curseur[0][1] = rand()%nb_colonnes;
+        if(sens_de_tir==1){
+            printf("sens de tir = %hd", sens_de_tir); getch();
+            for(i=nb_lignes-1; i>0; i--){
+                for(j=0; j<nb_colonnes; j++){
+                    printf("-%c-", matrice[i][j]);
+                    getch();
+                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
+                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
+                        curseur[0] = i;
+                        curseur[1] = j;
+                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                        tir.a_la_ligne = curseur[0];
+                        tir.a_la_colonne = curseur[1];
+                        return tir;
+                    }
+                }
+            }
         }
-        for(o=0; o<size_ship; o++){
-            if((matrice[curseur[o][0]][curseur[o][1]] == 'X')
-                ||(matrice[curseur[o][0]][curseur[o][1]] == 'c')
-                ||(matrice[curseur[o][0]][curseur[o][1]] == 'b')
-                ||(matrice[curseur[o][0]][curseur[o][1]] == 's')
-                ||(matrice[curseur[o][0]][curseur[o][1]] == 'd'))
+        if(sens_de_tir==2){
+            printf("sens de tir = %hd", sens_de_tir); getch();
+            for(i=0; i<nb_lignes; i++){
+                for(j=nb_colonnes-1; j>0; j--){
+                    printf("-%c-", matrice[i][j]);
+                    getch();
+                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
+                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
+                        curseur[0] = i;
+                        curseur[1] = j;
+                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                        tir.a_la_ligne = curseur[0];
+                        tir.a_la_colonne = curseur[1];
+                        return tir;
+                    }
+                }
+            }
+        }
+        if(sens_de_tir==3){
+            printf("sens de tir = %hd", sens_de_tir); getch();
+            for(i=nb_lignes-1; i>0; i--){
+                for(j=nb_colonnes-1; j>0; j--){
+                    printf("-%c-", matrice[i][j]);
+                    getch();
+                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
+                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
+                        curseur[0] = i;
+                        curseur[1] = j;
+                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                        tir.a_la_ligne = curseur[0];
+                        tir.a_la_colonne = curseur[1];
+                        return tir;
+                    }
+                }
+            }
+        }*/
+    }
+    else{
+        while (tir_done != 1){
+            curseur[0] = rand()%nb_lignes;
+            curseur[1] = rand()%nb_colonnes;
+            if(   (matrice[curseur[0]][curseur[1]] != 'X')
+                ||(matrice[curseur[0]][curseur[1]] != 'c')
+                ||(matrice[curseur[0]][curseur[1]] != 'b')
+                ||(matrice[curseur[0]][curseur[1]] != 's')
+                ||(matrice[curseur[0]][curseur[1]] != 'd'))
             {
-                cpt_pblm++;
+                fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                tir.a_la_ligne = curseur[0];
+                tir.a_la_colonne = curseur[1];
+                tir_done = 1;
+            }
+            else{
+                //printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
             }
         }
-        if(cpt_pblm == 0){
-            fireOnCoordonnees(curseur[0][0], curseur[0][1], matrice);
-            tir.a_la_ligne = curseur[0][0];
-            tir.a_la_colonne = curseur[0][1];
-            tir_done = 1;
-        }
-        else{
-            printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
-        }
-        cpt_pblm = 0;
     }
     return tir;
-
 }
 
 
@@ -979,7 +991,7 @@ char** place_a_ship_here(char** matrice, short nb_colonnes, short nb_lignes, sho
 }
 **/
 
-char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes, short nb_ships){ //par defaut : 11
+char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes, short nb_ships){ //par defaut : 10
 
     short size_ship = 5;
     short col_prem_case = 0;
@@ -997,7 +1009,9 @@ char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes, short 
     //Creation d'un bateau de taille 5
     short** ship = (short**)creerMatrice(2, size_ship);
 
-    while(cpt!=nb_ships+1){
+    nb_ships++;
+
+    while(cpt!=nb_ships){
 
         if(cpt == 1 || cpt == 2 || cpt == 3 || cpt == 4){
             size_ship = 2;
@@ -1229,3 +1243,326 @@ void libererMatrice(short** matrice, short nb_lignes) {
     free(matrice);
     matrice = NULL;
 }
+
+
+
+short menuChoice2(char* choix1, char* choix2, short nb_space, char* message_quit)
+{
+    short size1 = strlen(choix1);
+    short size2 = strlen(choix2);
+    short curseur = 1;
+    short i = 0;
+    short valid_enter = 0;
+    char touche;
+
+    while(valid_enter==0){
+        system("cls");
+        if(curseur==1){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0); //contour en jaune
+            printf(" %c%c", 218, 196);
+            for(i = 0; i<size1+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c", 191);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("%c ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix1);
+            color(14, 0);  //contour en jaune
+            printf(" %c     ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix2);
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0);  //contour en jaune
+            printf(" %c%c", 192, 196);
+            for(i = 0; i<size1+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c\n", 217);
+        }
+        else if(curseur==2){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0); //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %c%c", 218, 196);
+            for(i = 0; i<size2+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c", 191);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("  ");
+            color(15, 0);  //texte en blanc
+            printf("%s", choix1);
+            color(14, 0);  //contour en jaune
+            printf("     %c ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix2);
+            color(14, 0);  //contour en jaune
+            printf(" %c", 179);
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0);  //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %c%c", 192, 196);
+            for(i = 0; i<size2+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c\n", 217);
+        }
+        color(15, 0);
+        printf("      Please, select your choice. Press Enter to confirm.\n");
+        printf("     %s", message_quit);
+        touche = getch();
+        switch(touche) {
+        case 'q':
+        case (short) 75: //fleche de gauche
+            if(curseur != 1){
+                curseur--;
+            }
+        break;
+        case 'd':
+        case (short) 77: //fleche de droite
+            if(curseur != 2){
+                curseur++;
+            }
+        break;
+        case (short) 13: //touche Entree
+            valid_enter = curseur;
+        break;
+        case 27:
+            valid_enter = -1;
+        break;
+        default:
+        break;
+        }
+    }
+    return valid_enter;
+}
+
+
+short menuChoice3(char* choix1, char* choix2, char* choix3, short nb_space, char* message_quit)
+{
+    short size1 = strlen(choix1);
+    short size2 = strlen(choix2);
+    short size3 = strlen(choix3);
+    short curseur = 1;
+    short i = 0;
+    short valid_enter = 0;
+    char touche;
+
+    while(valid_enter==0){
+        system("cls");
+        if(curseur==1){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0); //contour en jaune
+            printf(" %c%c", 218, 196);
+            for(i = 0; i<size1+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c", 191);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("%c ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix1);
+            color(14, 0);  //contour en jaune
+            printf(" %c     ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix2);
+            printf("       ");
+            color(15, 0);  //texte en blanc
+            printf("%s", choix3);
+
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0);  //contour en jaune
+            printf(" %c%c", 192, 196);
+            for(i = 0; i<size1+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c\n", 217);
+        }
+        else if(curseur==2){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0); //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %c%c", 218, 196);
+            for(i = 0; i<size2+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c", 191);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("  ");
+            color(15, 0);  //texte en blanc
+            printf("%s", choix1);
+            color(14, 0);  //contour en jaune
+            printf("     %c ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix2);
+            color(14, 0);  //contour en jaune
+            printf(" %c", 179);
+            color(15, 0);  //texte en blanc
+            printf("     ");
+            printf("%s", choix3);
+
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0);  //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %c%c", 192, 196);
+            for(i = 0; i<size2+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c\n", 217);
+        }
+        else if(curseur==3){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0); //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+            printf("   ");
+            for(i = 0; i<size2+1; i++){
+                printf(" ");
+            }
+            printf("   ");
+            printf("   %c%c", 218, 196);
+            for(i = 0; i<size3+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c", 191);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("  ");
+            color(15, 0);  //texte en blanc
+            printf("%s", choix1);
+            printf("  ");
+            printf("     ");
+            color(15, 0);  //texte en blanc
+            printf("%s", choix2);
+            printf("    ");
+            color(14, 0);  //contour en jaune
+            printf(" %c ", 179);
+            color(15, 0);  //texte en blanc
+            printf("%s", choix3);
+            color(14, 0);  //contour en jaune
+            printf(" %c", 179);
+
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            color(14, 0);  //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+            printf("   ");
+            for(i = 0; i<size2+1; i++){
+                printf(" ");
+            }
+            printf("   ");
+            printf("   %c%c", 192, 196);
+            for(i = 0; i<size3+1; i++){
+                printf("%c", 196);
+            }
+            printf("%c\n", 217);
+        }
+        color(15, 0);
+        printf("    Please, select your difficulty. Press Enter to confirm.\n");
+        printf("     %s", message_quit);
+        touche = getch();
+        switch(touche) {
+        case 'q':
+        case (short) 75: //fleche de gauche
+            if(curseur != 1){
+                curseur--;
+            }
+        break;
+        case 'd':
+        case (short) 77: //fleche de droite
+            if(curseur != 3){
+                curseur++;
+            }
+        break;
+        case (short) 13: //touche Entree
+            valid_enter = curseur;
+        break;
+        case 27:
+            valid_enter = -1;
+        break;
+        default:
+        break;
+        }
+    }
+    return valid_enter;
+}
+
+// On suppose a<b
+short rand_a_b(short a, short b){
+    return (short) rand()%(b-a) +a;
+}
+
+
+
+
+
+
+
+
