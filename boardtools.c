@@ -844,82 +844,25 @@ coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes,
     curseur[1] = 0;
     srand((unsigned short)time(NULL)); // initialisation de rand
     short bullseye = rand_a_b(0, difficulte);
-    if(bullseye == 1){/*
-        curseur[0] = rand_a_b(0, nb_lignes);
-        curseur[1] = rand_a_b(0, nb_colonnes);
-        sens_de_tir = rand_a_b(0, 3);
-        if(sens_de_tir==0){
-            printf("sens de tir = %hd", sens_de_tir); getch();
-            for(i=0; i<nb_lignes; i++){
-                for(j=0; j<nb_colonnes; j++){
-                    printf("-%c-", matrice[i][j]);
-                    getch();
-                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
-                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
-                        curseur[0] = i;
-                        curseur[1] = j;
-                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
-                        tir.a_la_ligne = curseur[0];
-                        tir.a_la_colonne = curseur[1];
-                        return tir;
-                    }
-                }
+    if(bullseye == 0){
+        while (tir_done != 1){
+            curseur[0] = rand()%nb_lignes;
+            curseur[1] = rand()%nb_colonnes;
+            if(   (matrice[curseur[0]][curseur[1]] == 'C')
+                ||(matrice[curseur[0]][curseur[1]] == 'B')
+                ||(matrice[curseur[0]][curseur[1]] == 'S')
+                ||(matrice[curseur[0]][curseur[1]] == 'D'))
+            {
+                fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                tir.a_la_ligne = curseur[0];
+                tir.a_la_colonne = curseur[1];
+                tir_done = 1;
+            }
+            else{
+                //printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
             }
         }
-        if(sens_de_tir==1){
-            printf("sens de tir = %hd", sens_de_tir); getch();
-            for(i=nb_lignes-1; i>0; i--){
-                for(j=0; j<nb_colonnes; j++){
-                    printf("-%c-", matrice[i][j]);
-                    getch();
-                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
-                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
-                        curseur[0] = i;
-                        curseur[1] = j;
-                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
-                        tir.a_la_ligne = curseur[0];
-                        tir.a_la_colonne = curseur[1];
-                        return tir;
-                    }
-                }
-            }
-        }
-        if(sens_de_tir==2){
-            printf("sens de tir = %hd", sens_de_tir); getch();
-            for(i=0; i<nb_lignes; i++){
-                for(j=nb_colonnes-1; j>0; j--){
-                    printf("-%c-", matrice[i][j]);
-                    getch();
-                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
-                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
-                        curseur[0] = i;
-                        curseur[1] = j;
-                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
-                        tir.a_la_ligne = curseur[0];
-                        tir.a_la_colonne = curseur[1];
-                        return tir;
-                    }
-                }
-            }
-        }
-        if(sens_de_tir==3){
-            printf("sens de tir = %hd", sens_de_tir); getch();
-            for(i=nb_lignes-1; i>0; i--){
-                for(j=nb_colonnes-1; j>0; j--){
-                    printf("-%c-", matrice[i][j]);
-                    getch();
-                    if((matrice[i][j] == 'C')||(matrice[i][j] == 'B')||
-                       (matrice[i][j] == 'S')||(matrice[i][j] == 'D')){
-                        curseur[0] = i;
-                        curseur[1] = j;
-                        fireOnCoordonnees(curseur[0], curseur[1], matrice);
-                        tir.a_la_ligne = curseur[0];
-                        tir.a_la_colonne = curseur[1];
-                        return tir;
-                    }
-                }
-            }
-        }*/
+        return tir;
     }
     else{
         while (tir_done != 1){
@@ -943,53 +886,6 @@ coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes,
     }
     return tir;
 }
-
-
-/** uniquement pour le developpement
-char** place_a_ship_here(char** matrice, short nb_colonnes, short nb_lignes, short size_ship, short col_prem_case, short ligne_prem_case, char orientation)
-{
-    short i = 0;
-    short j = 0;
-    short k = 0;
-    char symbole_ship_maj = ' ';
-
-    if(size_ship == 2){
-        symbole_ship_maj = 'D';
-    }
-    else if(size_ship == 3){
-        symbole_ship_maj = 'S';
-    }
-    else if(size_ship == 4){
-        symbole_ship_maj = 'B';
-    }
-    else if(size_ship == 5){
-        symbole_ship_maj = 'C';
-    }
-
-    //Creation d'un bateau de taille 2, 3, 4 ou 5 (selon size_ship)
-    short** ship = (short**)creerMatrice(2, size_ship);
-
-    //placement bateau
-    if(orientation == 'v'){
-        for (i=0; i<size_ship; i++){
-            ship[i][0] = i + ligne_prem_case;
-            ship[i][1] = col_prem_case;
-        }
-    }
-    else{
-        for (j=0; j<size_ship; j++){
-            ship[j][0] = ligne_prem_case;
-            ship[j][1] = j + col_prem_case;
-        }
-    }
-
-    //placer ship dans matrice
-    for(k=0; k<size_ship; k++){
-        matrice[ship[k][0]][ship[k][1]] = symbole_ship_maj;
-    }
-    return matrice;
-}
-**/
 
 char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes, short nb_ships){ //par defaut : 10
 
@@ -1074,8 +970,8 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
     char contenu_case;
     system("cls");
     color(14, 0);
-    if(!votretir) printf("\n     -------------- TIR ENNEMI !!! --------------\n\n");
-    else printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
+    if(!votretir) printf("\n     -------- (OUR FLEET IS UNDER ATTACK !) -------\n\n");
+    else          printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
     color(15, 0);
 
     //Label des colonnes
