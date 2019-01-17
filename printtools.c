@@ -29,3 +29,18 @@ void printColorWhite(void)
 {
   printf(KWHT);
 }
+
+void printColorGreen(void)
+{
+  printf(KGRN);
+}
+
+void printColorMagenta(void)
+{
+  printf(KMAG);
+}
+
+void printColorBlue(void)
+{
+  printf(KBLU);
+}

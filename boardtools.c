@@ -4,41 +4,25 @@
 #include "boardtools.h"
 #include "printtools.h"
 #include <unistd.h>
-#include <time.h>
-
 #include <termios.h>
 #include <sys/ioctl.h>
+#include <time.h>
+#include <string.h>
 
 //Linux Box-Drawing Characters
-#define RB "\e(0\x6a\e(B" // 217 Right Bottom corner
-#define RT "\e(0\x6b\e(B" // 191 Right Top corner
-#define LT "\e(0\x6c\e(B" // 218 Left Top cornet
-#define LB "\e(0\x6d\e(B" // 192 Left Bottom corner
-#define MC "\e(0\x6e\e(B" // 197 Midle Cross
-#define HL "\e(0\x71\e(B" // 196 Horizontal Line
-#define LC "\e(0\x74\e(B" // 195 Left Cross
-#define RC "\e(0\x75\e(B" // 180 Right Cross
-#define BC "\e(0\x76\e(B" // 193 Bottom Cross
-#define TC "\e(0\x77\e(B" // 194 Top Cross
-#define VL "\e(0\x78\e(B" // 179 Vertical Line
-//Il reste a trouver pour 170
+#define RB "\e(0\x6a\e(B" // RB Right Bottom corner
+#define RT "\e(0\x6b\e(B" // RT Right Top corner
+#define LT "\e(0\x6c\e(B" // LT Left Top cornet
+#define LB "\e(0\x6d\e(B" // LB Left Bottom corner
+#define MC "\e(0\x6e\e(B" // MC Midle Cross
+#define HL "\e(0\x71\e(B" // HL Horizontal Line
+#define LC "\e(0\x74\e(B" // LC Left Cross
+#define RC "\e(0\x75\e(B" // RC Right Cross
+#define BC "\e(0\x76\e(B" // BC Bottom Cross
+#define TC "\e(0\x77\e(B" // TC Top Cross
+#define VL "\e(0\x78\e(B" // VL Vertical Line
 
-//Windows Box-Drawing Characters
-/*
-#define RB "217" // 217 Right Bottom corner
-#define RT "191" // 191 Right Top corner
-#define LT "218" // 218 Left Top cornet
-#define LB "192" // 192 Left Bottom corner
-#define MC "197" // 197 Midle Cross
-#define HL "196" // 196 Horizontal Line
-#define LC "195" // 195 Left Cross
-#define RC "180" // 180 Right Cross
-#define BC "193" // 193 Bottom Cross
-#define TC "194" // 194 Top Cross
-#define VL "179" // 179 Vertical Line
-*/
-
-char _getch(){
+char _getch() {
     char buf=0;
     struct termios old={0};
     fflush(stdout);
@@ -68,7 +52,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     char contenu_case;
     system("clear");
     printColorYellow();
-    printf("\n         ------------- BATTLESHIP --------------\n\n");
+    printf("\n        ------------- BATTLESHIP --------------\n\n");
     printColorWhite();
 
     //Label des colonnes
@@ -106,39 +90,41 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
                 printf(" "); //caractere representant l'eau
                 break;
             case 'X' :
-                printf("X"); //caractere representant un tir adverse dans l'eau
+                printColorCyan();
+                printf("X");//caractere representant un tir dans l'eau
+                printColorWhite();
                 break;
             case 'C' :
-                if(votreboard) printf("C");
+                if(votreboard) { printColorWhite(); printf("C"); printColorWhite();}
                 else printf(" ");
                 break;
             case 'c' :
-                if(votreboard) printf("C");
-                else printf("X");
+                if(votreboard) { printColorRed(); printf("C"); printColorWhite(); }
+                else { printColorRed(); printf("X"); printColorWhite(); }
                 break;
             case 'B' :
-                if(votreboard) printf("B");
+                if(votreboard) { printColorWhite(); printf("B"); printColorWhite();}
                 else printf(" ");
                 break;
             case 'b' :
-                if(votreboard) printf("B");
-                else printf("X");
+                if(votreboard) { printColorRed(); printf("B"); printColorWhite(); }
+                else { printColorRed(); printf("X"); printColorWhite(); }
                 break;
             case 'S' :
-                if(votreboard) printf("S");
+                if(votreboard) { printColorWhite(); printf("S"); printColorWhite();}
                 else printf(" ");
                 break;
             case 's' :
-                if(votreboard) printf("S");
-                else printf("X");
+                if(votreboard) { printColorRed(); printf("S"); printColorWhite(); }
+                else { printColorRed(); printf("X"); printColorWhite(); }
                 break;
             case 'D' :
-                if(votreboard) printf("D");
+                if(votreboard) { printColorWhite(); printf("D"); printColorWhite();}
                 else printf(" ");
                 break;
             case 'd' :
-                if(votreboard) printf("D");
-                else printf("X");
+                if(votreboard) { printColorRed(); printf("D"); printColorWhite(); }
+                else { printColorRed(); printf("X"); printColorWhite(); }
                 break;
             default :
                 printf("j");
@@ -168,25 +154,31 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
     return 1;
 }
 
+
+
 short isPossibleMove(char deplacement, short** ship, short size_ship, short nb_colonnes, short nb_lignes){
     switch(deplacement){
         case 'z':
             if(ship[0][0] == 0){
+                printf("c'est pas possible d'aller vers le haut");
                 return 0;
             }
         break;
         case 'q':
             if(ship[0][1] == 0){
+                printf("c'est pas possible d'aller a gauche");
                 return 0;
             }
         break;
         case 'd':
             if(ship[size_ship-1][1] == nb_lignes-1){
+                printf("c'est pas possible d'aller a droite");
                 return 0;
             }
         break;
         case 's':
             if(ship[size_ship-1][0] == nb_colonnes-1){
+                printf("c'est pas possible d'aller vers le bas");
                 return 0;
             }
         break;
@@ -209,7 +201,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     short n = 0;
     short o = 0;
     short p = 0;
-    int touche;
+    char touche;
     char contenu_case;
     char symbole_ship = '0';
     char symbole_ship_maj = '0';
@@ -231,7 +223,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     }
 
     //Creation d'une sauvegarde du board
-    char** matrice_saved = (char**) creerMatrice(nb_colonnes, nb_lignes);
+    char** matrice_saved = (char**)creerMatrice(nb_colonnes, nb_lignes);
     for (i=0; i<nb_colonnes; i++){
         for(j=0; j<nb_lignes; j++){
             matrice_saved[i][j]=matrice[i][j]; //memccpoy doesn't work for some reason...
@@ -239,15 +231,15 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     }
 
     //Creation d'un bateau de taille 2, 3, 4 ou 5 (selon size_ship)
-    short** ship = (short**) creerMatrice(2, size_ship);
+    short** ship = (short**)creerMatrice(2, size_ship);
 
     //initialisation placement bateau (coin sup. gauche verticalement)
     for (m=0; m<size_ship; m++){
-        ship[m][0] = m; //remplit la colonne No 0 de ship avec les lignes sur lequel il se trouve dans matrice
+        ship[m][0] = m; //remplit la colonne ne0 de ship avec les lignes sur lequel il se trouve dans matrice
     }
 
     //Creation d'une sauvegarde du ship (pour la rotation)
-    char** ship_s = (char**) creerMatrice(2, size_ship);
+    short** ship_s = (short**)creerMatrice(2, size_ship);
     for (j=0; j<2; j++){
         for(i=0; i<size_ship; i++){
             ship_s[i][j]=ship[i][j];
@@ -255,7 +247,8 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
     }
 
     while(ship_done != 1){
-        //Boucle remplacant matrice par sa version matrice_saved
+
+        //Boucle remplaeant matrice par sa version matrice_saved
         for (i=0; i<nb_colonnes; i++){
             for(j=0; j<nb_lignes; j++){
                 matrice[i][j]=matrice_saved[i][j];
@@ -275,9 +268,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
             matrice[ship[n][0]][ship[n][1]]=symbole_ship;
         }
 
-        //Boucle d'affichage des deux matrices pour clignotement
         system("clear");
-        usleep(20000);
 
         printColorYellow();
         printf("\n       -------------- (YOUR FLEET) --------------\n\n");
@@ -314,40 +305,39 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
                 contenu_case = matrice[i][j];
 
-                if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0)
-                {
-                  printColorRed();
-                }
+                if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) printColorGreen();
 
                 switch (contenu_case) {
                     case 0 :
                         printf(" "); //caractere representant l'eau
                         break;
                     case 'X' :
-                        printf("X"); //caractere representant un tir adverse dans l'eau
+                        printColorCyan();
+                        printf("X");//caractere representant un tir dans l'eau
+                        printColorWhite();
                     case 'C' :
-                        printf("C");
-                        break;
                     case 'c' :
+                        printColorWhite();
                         printf("C");
+                        printColorWhite();
                         break;
                     case 'B' :
-                        printf("B");
-                        break;
                     case 'b' :
+                        printColorWhite();
                         printf("B");
+                        printColorWhite();
                         break;
                     case 'S' :
-                        printf("S");
-                        break;
                     case 's' :
+                        printColorWhite();
                         printf("S");
+                        printColorWhite();
                         break;
                     case 'D' :
-                        printf("D");
-                        break;
                     case 'd' :
+                        printColorWhite();
                         printf("D");
+                        printColorWhite();
                         break;
                     default :
                         printf("u");
@@ -378,7 +368,6 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
         printf("\n                 Press Enter to confirm.\n");
 
         touche = _getch();
-
         switch(touche) {
             case 'z':
                 if(isPossibleMove('z', ship, size_ship, nb_colonnes, nb_lignes)){
@@ -408,7 +397,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     }
                 }
             break;
-            case 'e': touche = 'a';
+            case 'e':
             case 'a':
                 if(size_ship==2){
                     if(ship[1][0]!=ship[0][0]){ //vertical
@@ -622,16 +611,17 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                     ship_done = 1;
                 }
                 else{
+                    printColorGreen();
                     printf("\nproblem !\n");
+                    printColorWhite();
                 }
                 cpt_pblm = 0;
             break;
             default :
-                //printf("Key is : %d", (short)touche);
+                printf("Key is : %d", (short)touche);
             break;
         }
     }
-
     return matrice;
 }
 
@@ -658,6 +648,7 @@ char** fireOnCoordonnees(short ligne, short colonne, char** matrice)
 }
 
 coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
+
     short votreboard = 0;
     short cpt_pblm = 0;
     short tir_done = 0;
@@ -665,14 +656,14 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     short j = 0;
     short k = 0;
     short o = 0;
-    int touche;
+    char touche;
     char contenu_case;
     short size_ship = 1;
 
     coordonnees_tir tir;
 
     //Creation d'une sauvegarde du board
-    char** matrice_saved = (char**) creerMatrice(nb_colonnes, nb_lignes);
+    char** matrice_saved = (char**)creerMatrice(nb_colonnes, nb_lignes);
     for (i=0; i<nb_colonnes; i++){
         for(j=0; j<nb_lignes; j++){
             matrice_saved[i][j]=matrice[i][j];
@@ -680,21 +671,19 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     }
 
     //Creation d'un curseur
-    short** curseur = (short**) creerMatrice(2, 1);
+    short** curseur = (short**)creerMatrice(2, 1);
     curseur[0][0] = 0;
     curseur[0][1] = 0;
 
     while(tir_done != 1){
 
-        //Boucle remplacant matrice par sa version matrice_saved
+        //Boucle remplaeant matrice par sa version matrice_saved
         for (i=0; i<nb_colonnes; i++){
             for(j=0; j<nb_lignes; j++){
                 matrice[i][j]=matrice_saved[i][j];
             }
         }
-
         system("clear");
-        usleep(20000);
 
         printColorYellow();
         printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
@@ -743,42 +732,43 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
 
                     break;
                 case 'X' :
-                    printf("X"); //caractere representant un tir adverse dans l'eau
+                    printColorCyan();
+                    printf("X");//caractere representant un tir dans l'eau
+                    printColorWhite();
                     break;
                 case 'C' :
-                    if(votreboard) printf("C");
+                    if(votreboard) { printColorWhite(); printf("C"); printColorWhite(); }
                     else printf(" ");
                     break;
                 case 'c' :
-                    if(votreboard) printf("C");
-                    else printf("X");
+                    if(votreboard) { printColorRed(); printf("C"); printColorWhite(); }
+                    else { printColorRed(); printf("X"); printColorWhite(); }
                     break;
                 case 'B' :
-                    if(votreboard) printf("B");
+                    if(votreboard) { printColorWhite(); printf("B"); printColorWhite(); }
                     else printf(" ");
                     break;
                 case 'b' :
-                    if(votreboard) printf("B");
-                    else printf("X");
+                    if(votreboard) { printColorRed(); printf("B"); printColorWhite(); }
+                    else { printColorRed(); printf("X"); printColorWhite(); }
                     break;
                 case 'S' :
-                    if(votreboard) printf("S");
+                    if(votreboard) { printColorWhite(); printf("S"); printColorWhite(); }
                     else printf(" ");
                     break;
                 case 's' :
-                    if(votreboard) printf("S");
-                    else printf("X");
+                    if(votreboard) { printColorRed(); printf("S"); printColorWhite(); }
+                    else { printColorRed(); printf("X"); printColorWhite(); }
                     break;
                 case 'D' :
-                    if(votreboard) printf("D");
+                    if(votreboard) { printColorWhite(); printf("D"); printColorWhite(); }
                     else printf(" ");
                     break;
                 case 'd' :
-                    if(votreboard) printf("D");
-                    else printf("X");
+                    if(votreboard) { printColorRed(); printf("D"); printColorWhite(); }
+                    else { printColorRed(); printf("X"); printColorWhite(); }
                     break;
                 default :
-                    printf("%c", '#');
                     break;
                 }
                 printColorWhite();
@@ -819,7 +809,6 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
         printf("\n                  Press Enter to confirm.");
 
         touche = _getch();
-
         switch(touche) {
             case 'z':
                 if(isPossibleMove('z', curseur, size_ship, nb_colonnes, nb_lignes)){
@@ -868,7 +857,7 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
                     tir_done = 1;
                 }
                 else{
-                    printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
+                    //printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
                 }
                 cpt_pblm = 0;
             break;
@@ -880,52 +869,64 @@ coordonnees_tir Aim(char** matrice, short nb_colonnes, short nb_lignes){
     return tir;
 }
 
-/** uniquement pour le developpement **/
-char** place_a_ship_here(char** matrice, short nb_colonnes, short nb_lignes, short size_ship, short col_prem_case, short ligne_prem_case, char orientation)
-{
+coordonnees_tir Aim_randomly(char** matrice, short nb_colonnes, short nb_lignes, short difficulte){
+    short o = 0;
     short i = 0;
     short j = 0;
-    short k = 0;
-    char symbole_ship_maj = ' ';
-
-    if(size_ship == 2){
-        symbole_ship_maj = 'D';
-    }
-    else if(size_ship == 3){
-        symbole_ship_maj = 'S';
-    }
-    else if(size_ship == 4){
-        symbole_ship_maj = 'B';
-    }
-    else if(size_ship == 5){
-        symbole_ship_maj = 'C';
-    }
-
-    //Creation d'un bateau de taille 2, 3, 4 ou 5 (selon size_ship)
-    short** ship = (short**) creerMatrice(2, size_ship);
-
-    //placement bateau
-    if(orientation == 'v'){
-        for (i=0; i<size_ship; i++){
-            ship[i][0] = i + ligne_prem_case;
-            ship[i][1] = col_prem_case;
+    short cpt_pblm = 0;
+    short tir_done = 0;
+    short sens_de_tir = 0;
+    coordonnees_tir tir;
+    //Creation d'un curseur
+    short curseur[2];
+    curseur[0] = 0;
+    curseur[1] = 0;
+    srand((unsigned short)time(NULL)); // initialisation de rand
+    short bullseye = rand_a_b(0, difficulte);
+    if(bullseye == 0){
+        while (tir_done != 1){
+            curseur[0] = rand()%nb_lignes;
+            curseur[1] = rand()%nb_colonnes;
+            if(   (matrice[curseur[0]][curseur[1]] == 'C')
+                ||(matrice[curseur[0]][curseur[1]] == 'B')
+                ||(matrice[curseur[0]][curseur[1]] == 'S')
+                ||(matrice[curseur[0]][curseur[1]] == 'D'))
+            {
+                fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                tir.a_la_ligne = curseur[0];
+                tir.a_la_colonne = curseur[1];
+                tir_done = 1;
+            }
+            else{
+                //printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
+            }
         }
+        return tir;
     }
     else{
-        for (j=0; j<size_ship; j++){
-            ship[j][0] = ligne_prem_case;
-            ship[j][1] = j + col_prem_case;
+        while (tir_done != 1){
+            curseur[0] = rand()%nb_lignes;
+            curseur[1] = rand()%nb_colonnes;
+            if(   (matrice[curseur[0]][curseur[1]] != 'X')
+                ||(matrice[curseur[0]][curseur[1]] != 'c')
+                ||(matrice[curseur[0]][curseur[1]] != 'b')
+                ||(matrice[curseur[0]][curseur[1]] != 's')
+                ||(matrice[curseur[0]][curseur[1]] != 'd'))
+            {
+                fireOnCoordonnees(curseur[0], curseur[1], matrice);
+                tir.a_la_ligne = curseur[0];
+                tir.a_la_colonne = curseur[1];
+                tir_done = 1;
+            }
+            else{
+                //printf("Vous avez deja tire ici, veuillez choisir une cible valide.");
+            }
         }
     }
-
-    //placer ship dans matrice
-    for(k=0; k<size_ship; k++){
-        matrice[ship[k][0]][ship[k][1]] = symbole_ship_maj;
-    }
-    return matrice;
+    return tir;
 }
 
-char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes){
+char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes, short nb_ships){ //par defaut : 10
 
     short size_ship = 5;
     short col_prem_case = 0;
@@ -940,12 +941,12 @@ char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes){
     short cpt = 1;
     srand((unsigned short)time(NULL)); // initialisation de rand
 
-
-
     //Creation d'un bateau de taille 5
-    short** ship = (short**) creerMatrice(2, size_ship);
+    short** ship = (short**)creerMatrice(2, size_ship);
 
-    while(cpt!=11){
+    nb_ships++;
+
+    while(cpt!=nb_ships){
 
         if(cpt == 1 || cpt == 2 || cpt == 3 || cpt == 4){
             size_ship = 2;
@@ -1000,6 +1001,147 @@ char** place_randomly(char** matrice, short nb_colonnes, short nb_lignes){
     return matrice;
 }
 
+short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coordonnees_tir dernier_tir, short votretir) //1 si c'est vous qui venez de tirer, 0 sinon
+{
+    short i = 0;
+    short j = 0;
+    short k = 0;
+    char contenu_case;
+    system("clear");
+    printColorYellow();
+    if(!votretir) printf("\n     -------- (OUR FLEET IS UNDER ATTACK !) -------\n\n");
+    else          printf("\n     -------------- (ENNEMY'S FLEET) --------------\n\n");
+    printColorWhite();
+
+    //Label des colonnes
+    printColorCyan();
+    printf("     ");
+    for (i=0; i<nb_colonnes; i++) {
+        printf("   %c", i+65);
+    }
+    printColorWhite();
+
+    //1st ligne de la grille
+    printf("\n      %s%s%s%s", LT, HL, HL, HL);
+    for (i=0; i<nb_colonnes-1; i++) {
+        printf("%s%s%s%s", TC, HL, HL, HL);
+    }
+    printf("%s", RT);
+
+    //Contenu
+    for (i=0; i<nb_lignes; i++) {
+
+        //Label des lignes
+        printColorCyan();
+        if(i<10) printf("\n    %d ", i);
+        else printf("\n    %d", i);
+        printColorWhite();
+
+        //1st ligne de separation verticale
+        printf("%s", VL);
+        if (dernier_tir.a_la_colonne==0 && dernier_tir.a_la_ligne==i){
+                printColorMagenta();
+                printf("%c", 62);
+                printColorWhite();
+            }
+            else printf(" ");
+
+        //Switch contenu de la case
+        for (j=0; j<nb_colonnes; j++){
+            contenu_case = matrice[i][j];
+            if (i==dernier_tir.a_la_ligne && j==dernier_tir.a_la_colonne){
+
+            }
+            switch (contenu_case){
+            case 0 :
+                printf(" "); //caractere representant l'eau
+                break;
+            case 'X' :
+                printColorCyan();
+                printf("X");//caractere representant un tir dans l'eau
+                printColorWhite();
+                break;
+            case 'C' :
+                if(votretir) printf(" ");
+                else { printColorWhite(); printf("C"); printColorWhite(); }
+                break;
+            case 'c' :
+                printColorGreen();
+                if(!votretir){ printf("C"); }
+                else printf("X");
+                printColorWhite();
+                break;
+            case 'B' :
+                if(votretir) printf(" ");
+                else { printColorWhite(); printf("B"); printColorWhite(); }
+                break;
+            case 'b' :
+                printColorGreen();
+                if(!votretir){ printf("B"); }
+                else printf("X");
+                printColorWhite();
+                break;
+            case 'S' :
+                if(votretir) printf(" ");
+                else { printColorWhite(); printf("S"); printColorWhite(); }
+                break;
+            case 's' :
+                printColorGreen();
+                if(!votretir){ printf("S"); }
+                else printf("X");
+                printColorWhite();
+                break;
+            case 'D' :
+                if(votretir) printf(" ");
+                else { printColorWhite(); printf("D"); printColorWhite(); }
+                break;
+            case 'd' :
+                printColorGreen();
+                if(!votretir){ printf("D"); }
+                else printf("X");
+                printColorWhite();
+                break;
+            default :
+                printf("j");
+                break;
+            }
+            if (dernier_tir.a_la_ligne==i && dernier_tir.a_la_colonne==j){
+                printColorMagenta();
+                printf("%c", 60);
+                printColorWhite();
+                printf("%s ", VL);
+            }
+            else if (dernier_tir.a_la_ligne==i && dernier_tir.a_la_colonne==j+1){
+
+                printf(" %s", VL);
+                printColorMagenta();
+                printf("%c", 62);
+                printColorWhite();
+            }
+            else printf(" %s ", VL);
+        }
+
+        //Ligne de separation horizontale
+        if(i != nb_lignes-1){
+            printf("\n      %s%s%s%s", LC, HL, HL, HL); //premiere case de la ligne
+            for (k=0; k<nb_colonnes-1; k++) {
+                printf("%s%s%s%s", MC, HL, HL, HL); //reste de la ligne
+            }
+            printf("%s", RC);
+        }
+        else{ //Derniere ligne de la grille
+            printf("\n      %s%s%s%s", LB, HL, HL, HL); //premiere case de la derniere ligne
+            for (k=0; k<nb_colonnes-1; k++) {
+                printf("%s%s%s%s", BC, HL, HL, HL); //reste de la derniere ligne
+            }
+            printf("%s", RB);
+        }
+    }
+    printColorYellow();
+    //printf("\n\n                  - (YOUR FLEET) -          \n\n");
+    return 1;
+}
+
 
 void** creerMatrice(short nb_colonnes, short nb_lignes)
 {
@@ -1008,14 +1150,18 @@ void** creerMatrice(short nb_colonnes, short nb_lignes)
 
     matrice = (void **)calloc(nb_lignes, sizeof(void *));
     if (matrice == NULL) {
+        printColorRed();
         printf("-- Erreur lors de l'allocation de la memoire des colonnes --\n");
+        printColorWhite();
         exit(0);
     }
 
     for (i=0; i<nb_lignes; i++) {
         matrice[i] = (void *)calloc(nb_colonnes, sizeof(void));
         if (matrice[i] == NULL) {
+            printColorRed();
             printf("-- Erreur lors de l'allocation de la memoire des lignes --\n");
+            printColorWhite();
         }
     }
     return matrice;
@@ -1035,4 +1181,315 @@ void libererMatrice(short** matrice, short nb_lignes) {
     //On libere le bloc memoire des pointeurs (premier tableau)
     free(matrice);
     matrice = NULL;
+}
+
+
+
+short menuChoice2(char* choix1, char* choix2, short nb_space, char* message_quit)
+{
+    short size1 = strlen(choix1);
+    short size2 = strlen(choix2);
+    short curseur = 1;
+    short i = 0;
+    short valid_enter = 0;
+    char touche;
+
+    while(valid_enter==0){
+        system("clear");
+        if(curseur==1){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow(); //contour en jaune
+            printf(" %s%s", LT, HL);
+            for(i = 0; i<size1+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s", RT);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("%s ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix1);
+            printColorYellow();  //contour en jaune
+            printf(" %s     ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix2);
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow();  //contour en jaune
+            printf(" %s%s", LB, HL);
+            for(i = 0; i<size1+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s\n", RB);
+        }
+        else if(curseur==2){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow(); //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %s%s", LT, HL);
+            for(i = 0; i<size2+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s", RT);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("  ");
+            printColorWhite();  //texte en blanc
+            printf("%s", choix1);
+            printColorYellow();  //contour en jaune
+            printf("     %s ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix2);
+            printColorYellow();  //contour en jaune
+            printf(" %s", VL);
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow();  //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %s%s", LB, HL);
+            for(i = 0; i<size2+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s\n", RB);
+        }
+        printColorWhite();
+        printf("      Please, select your choice. Press Enter to confirm.\n");
+        printf("     %s", message_quit);
+        touche = _getch();
+        switch(touche) {
+        case 'q':
+            if(curseur != 1){
+                curseur--;
+            }
+        break;
+        case 'd':
+            if(curseur != 2){
+                curseur++;
+            }
+        break;
+        case (short) 10: //touche Entree
+            valid_enter = curseur;
+        break;
+        case 27:
+            valid_enter = -1;
+        break;
+        default:
+        break;
+        }
+    }
+    return valid_enter;
+}
+
+
+short menuChoice3(char* choix1, char* choix2, char* choix3, short nb_space, char* message_quit)
+{
+    short size1 = strlen(choix1);
+    short size2 = strlen(choix2);
+    short size3 = strlen(choix3);
+    short curseur = 1;
+    short i = 0;
+    short valid_enter = 0;
+    char touche;
+
+    while(valid_enter==0){
+        system("clear");
+        if(curseur==1){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow(); //contour en jaune
+            printf(" %s%s", LT, HL);
+            for(i = 0; i<size1+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s", RT);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("%s ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix1);
+            printColorYellow();  //contour en jaune
+            printf(" %s     ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix2);
+            printf("       ");
+            printColorWhite();  //texte en blanc
+            printf("%s", choix3);
+
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow();  //contour en jaune
+            printf(" %s%s", LB, HL);
+            for(i = 0; i<size1+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s\n", RB);
+        }
+        else if(curseur==2){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow(); //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %s%s", LT, HL);
+            for(i = 0; i<size2+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s", RT);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("  ");
+            printColorWhite();  //texte en blanc
+            printf("%s", choix1);
+            printColorYellow();  //contour en jaune
+            printf("     %s ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix2);
+            printColorYellow();  //contour en jaune
+            printf(" %s", VL);
+            printColorWhite();  //texte en blanc
+            printf("     ");
+            printf("%s", choix3);
+
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow();  //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+
+            printf("   %s%s", LB, HL);
+            for(i = 0; i<size2+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s\n", RB);
+        }
+        else if(curseur==3){
+            //1st ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow(); //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+            printf("   ");
+            for(i = 0; i<size2+1; i++){
+                printf(" ");
+            }
+            printf("   ");
+            printf("   %s%s", LT, HL);
+            for(i = 0; i<size3+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s", RT);
+
+            //2me ligne
+            printf("\n ");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printf("  ");
+            printColorWhite();  //texte en blanc
+            printf("%s", choix1);
+            printf("  ");
+            printf("     ");
+            printColorWhite();  //texte en blanc
+            printf("%s", choix2);
+            printf("    ");
+            printColorYellow();  //contour en jaune
+            printf(" %s ", VL);
+            printColorWhite();  //texte en blanc
+            printf("%s", choix3);
+            printColorYellow();  //contour en jaune
+            printf(" %s", VL);
+
+
+            //3me ligne
+            printf("\n");
+            for(i = 0; i<nb_space; i++){ printf(" "); }
+            printColorYellow();  //contour en jaune
+            printf("   ");
+            for(i = 0; i<size1+1; i++){
+                printf(" ");
+            }
+            printf(" ");
+            printf("   ");
+            for(i = 0; i<size2+1; i++){
+                printf(" ");
+            }
+            printf("   ");
+            printf("   %s%s", LB, HL);
+            for(i = 0; i<size3+1; i++){
+                printf("%s", HL);
+            }
+            printf("%s\n", RB);
+        }
+        printColorWhite();
+        printf("    Please, select your difficulty. Press Enter to confirm.\n");
+        printf("     %s", message_quit);
+        touche = _getch();
+        switch(touche) {
+        case 'q':
+            if(curseur != 1){
+                curseur--;
+            }
+        break;
+        case 'd':
+            if(curseur != 3){
+                curseur++;
+            }
+        break;
+        case (short) 10: //touche Entree
+            valid_enter = curseur;
+        break;
+        case 27:
+            valid_enter = -1;
+        break;
+        default:
+        break;
+        }
+    }
+    return valid_enter;
+}
+
+// On suppose a<b
+short rand_a_b(short a, short b){
+    return (short) rand()%(b-a) +a;
 }
