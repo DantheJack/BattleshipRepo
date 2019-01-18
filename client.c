@@ -80,7 +80,7 @@ void startClient()
 													//Host server Connection: start the server
 													printf("Share your address to your opponent: 127.0.0.1");
 													pthread_t t_server;
-										      pthread_create(&t_server, NULL, startServer, NULL);
+										      pthread_create(&t_server, NULL, (void*) startServer, NULL);
 
 													//Connect to server
 										      socket = establishConnection("127.0.0.1");

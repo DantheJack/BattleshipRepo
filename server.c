@@ -3,9 +3,14 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <stdlib.h>
-#include <netinet/in.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <semaphore.h>
+#include <unistd.h>
+
 #define PORT 8080
 #define ROW 10
 #define COL 10
@@ -13,81 +18,90 @@
 #include "boardtools.h"
 #include "communication.h"
 #include "server.h"
-#include <pthread.h>
-#include <stdlib.h>
-#include <semaphore.h>
-#include <unistd.h>
 
-void* startServer(void* param)
+void startServer()
 {
+	//Server config
+	int server_fd;
+	struct sockaddr_in address;
+	int addrlen = sizeof(address);
+
+	//Sockets for each client
+	int socket1, socket2;
+
+	setUpServer(&server_fd, &address, &addrlen);
 	printf("SERVER STARTED\n");
 
-	int server_fd, new_socket, valread;
-	struct sockaddr_in address;
+	printf("SERVER: wait for connection 1\n");
+	waitForConnection(&socket1, &server_fd, &address, &addrlen);
+
+	printf("SERVER: wait for connection 2\n");
+	waitForConnection(&socket2, &server_fd, &address, &addrlen);
+
+	printf("SERVER: all connection accepted\n");
+
+	startGame(socket1, socket2);
+}
+
+/**
+*	Set up server socket,
+*	listen for connection,
+*	set up client sockets
+**/
+void setUpServer(int* server_fd, struct sockaddr_in* address, int* addrlen)
+{
 	int opt = 1;
-	int addrlen = sizeof(address);
-	char buffer[1024] = {0};
-	char *hello = "Hello from server";
 
 	// Creating socket file descriptor
-	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+	if ((*server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
 		perror("socket failed");
 		exit(EXIT_FAILURE);
 	}
 
-	// Forcefully attaching socket to the port 8080
-	if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+	// Setting socket options
+	if (setsockopt(*server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
 												&opt, sizeof(opt)))
 	{
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons( PORT );
+	address->sin_family = AF_INET;
+	address->sin_addr.s_addr = INADDR_ANY;
+	address->sin_port = htons( PORT );
 
 	// Forcefully attaching socket to the port 8080
-	if (bind(server_fd, (struct sockaddr *)&address,
-								sizeof(address))<0)
+	if (bind(*server_fd, (struct sockaddr *) address,
+								sizeof(*address))<0)
 	{
 		perror("bind failed");
 		exit(EXIT_FAILURE);
 	}
 
 	printf("server listens\n");
-	if (listen(server_fd, 2) < 0)
+	//Start listenin on port 8080 through socket
+	if (listen(*server_fd, 2) < 0)
 	{
 		perror("listen");
 		exit(EXIT_FAILURE);
 	}
+}
 
-	//Struct with player sockets
-	//p_sockets _p_sockets_p1; _p_sockets_p1.p = 1;
-	//p_sockets _p_sockets_p2; _p_sockets_p1.p = 2;
-
-	int socket1 = 0;
-	int socket2 = 0;
-
-	printf("SERVER: wait for connection 1\n");
-	//Connect two clients
-	if ((socket1 = accept(server_fd, (struct sockaddr *)&address,
-					(socklen_t*)&addrlen))<0)
+/**
+*	Wait for client connection and assosiate it to socket
+*/
+void waitForConnection(int* socket, int* server_fd, struct sockaddr_in* address, int* addrlen)
+{
+	if ( (*socket = accept(*server_fd, (struct sockaddr *) address, (socklen_t *) addrlen)) < 0)
 	{
-		printf("accept P1 error");
+		printf("Connection failed\n");
 		exit(EXIT_FAILURE);
 	}
+}
 
-	printf("SERVER: wait for connection 2\n");
-	if ((socket2 = accept(server_fd, (struct sockaddr *)&address,
-					(socklen_t*)&addrlen))<0)
-	{
-		printf("accept P2 error");
-		exit(EXIT_FAILURE);
-	}
-
-	printf("SERVER: all connection accepted\n");
-
+void startGame(int socket1, int socket2)
+{
+	printf("socket1:%d  socket2:%d\n", socket1, socket2);
 
 	//Send start signal for both players
 	char* startSignal = "Game can start !";
@@ -105,13 +119,11 @@ void* startServer(void* param)
 	printf("SERVER: read buffer\n");
 	read(socket1, serializedMatrice_Client1, 1024);
 	printf("SERVER: received: .%s. from Client1\n", serializedMatrice_Client1);
-	//deserializeMatrice(matrice, buffer+1, ROW, COL);
 
-	//Wait for P2's board reception
+	//Wait for Client2's board reception
 	printf("SERVER: read buffer\n");
 	read(socket2, serializedMatrice_Client2, 1024);
 	printf("SERVER: received: .%s. from Client2\n", serializedMatrice_Client2);
-	//deserializeMatrice(matrice, buffer+1, ROW, COL);
 
 	//Send back boards to the other player
 	send(socket1, serializedMatrice_Client2, strlen(serializedMatrice_Client2), 0);
@@ -119,6 +131,7 @@ void* startServer(void* param)
 
 	printf("SERVER: read coordinate\n");
 	//The game can start
+	char* buffer = (char*) malloc(1024 * sizeof(char));
 	while (1)
 	{
 		//Tell client2 to shot
@@ -150,44 +163,6 @@ void* startServer(void* param)
 		printf("SERVER: sent (%d/%d) to P1\n", x, y);
 	}
 
-
-
-	//sem_t* sendRequest_sem = (sem_t*) param;
-	//sem_post(sendRequest_sem);
-
-	//Listen to client 2
-	/*
-	printf("SERVER: read buffer\n");
-	read( socket2 , buffer, 1024);
-	printf("SERVER: received: .%s.\n", buffer);
-	processRequest(buffer);
-	*/
-
-
-}
-
-int processRequest(char* buffer)
-{
-	char id = buffer[0];
-	printf("request id is: %c\n", id);
-
-	switch (id) {
-		case '1':; //BoardIsReady
-			printf("BoardIsReady Request\n");
-			char** matrice = (char**) creerMatrice(ROW, COL);
-			deserializeMatrice(matrice, buffer+1, ROW, COL);
-			displayMatrice(matrice);
-			return 1;
-		break;
-		case '2':; //sendCoordinate
-			printf("Coordinate Request\n");
-		break;
-		case '3':; //win
-			printf("Win Request\n");
-		break;
-	}
-
-	return 0;
 }
 
 void displayMatrice(char** matrice)
