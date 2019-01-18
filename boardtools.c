@@ -127,7 +127,7 @@ short printBoard(char** matrice, short nb_colonnes, short nb_lignes, short votre
                 else { printColorRed(); printf("X"); printColorWhite(); }
                 break;
             default :
-                printf("j");
+                printf(" ");
                 break;
             }
             printf(" %s ", VL);
@@ -305,37 +305,35 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
 
                 contenu_case = matrice[i][j];
 
-                if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) printColorGreen();
-
                 switch (contenu_case) {
                     case 0 :
                         printf(" "); //caractere representant l'eau
                         break;
                     case 'X' :
-                        printColorCyan();
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) { printColorRed(); } else printColorCyan();
                         printf("X");//caractere representant un tir dans l'eau
                         printColorWhite();
                     case 'C' :
                     case 'c' :
-                        printColorWhite();
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) { printColorRed(); } else printColorWhite();
                         printf("C");
                         printColorWhite();
                         break;
                     case 'B' :
                     case 'b' :
-                        printColorWhite();
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) { printColorRed(); } else printColorWhite();
                         printf("B");
                         printColorWhite();
                         break;
                     case 'S' :
                     case 's' :
-                        printColorWhite();
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) { printColorRed(); } else printColorWhite();
                         printf("S");
                         printColorWhite();
                         break;
                     case 'D' :
                     case 'd' :
-                        printColorWhite();
+                        if(contenu_case != matrice_saved[i][j] && matrice_saved[i][j] != 0) { printColorRed(); } else printColorWhite();
                         printf("D");
                         printColorWhite();
                         break;
@@ -612,7 +610,7 @@ char** placeShip(char** matrice, short nb_colonnes, short nb_lignes, short size_
                 }
                 else{
                     printColorGreen();
-                    printf("\nproblem !\n");
+                    //printf("\nproblem !\n");
                     printColorWhite();
                 }
                 cpt_pblm = 0;
@@ -1040,7 +1038,7 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
         //1st ligne de separation verticale
         printf("%s", VL);
         if (dernier_tir.a_la_colonne==0 && dernier_tir.a_la_ligne==i){
-                printColorMagenta();
+                printColorYellow();
                 printf("%c", 62);
                 printColorWhite();
             }
@@ -1066,7 +1064,7 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
                 else { printColorWhite(); printf("C"); printColorWhite(); }
                 break;
             case 'c' :
-                printColorGreen();
+                printColorRed();
                 if(!votretir){ printf("C"); }
                 else printf("X");
                 printColorWhite();
@@ -1076,7 +1074,7 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
                 else { printColorWhite(); printf("B"); printColorWhite(); }
                 break;
             case 'b' :
-                printColorGreen();
+                printColorRed();
                 if(!votretir){ printf("B"); }
                 else printf("X");
                 printColorWhite();
@@ -1086,7 +1084,7 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
                 else { printColorWhite(); printf("S"); printColorWhite(); }
                 break;
             case 's' :
-                printColorGreen();
+                printColorRed();
                 if(!votretir){ printf("S"); }
                 else printf("X");
                 printColorWhite();
@@ -1096,17 +1094,17 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
                 else { printColorWhite(); printf("D"); printColorWhite(); }
                 break;
             case 'd' :
-                printColorGreen();
+                printColorRed();
                 if(!votretir){ printf("D"); }
                 else printf("X");
                 printColorWhite();
                 break;
             default :
-                printf("j");
+                printf(" ");
                 break;
             }
             if (dernier_tir.a_la_ligne==i && dernier_tir.a_la_colonne==j){
-                printColorMagenta();
+                printColorYellow();
                 printf("%c", 60);
                 printColorWhite();
                 printf("%s ", VL);
@@ -1114,7 +1112,7 @@ short printBoard_af_tir(char** matrice, short nb_colonnes, short nb_lignes, coor
             else if (dernier_tir.a_la_ligne==i && dernier_tir.a_la_colonne==j+1){
 
                 printf(" %s", VL);
-                printColorMagenta();
+                printColorYellow();
                 printf("%c", 62);
                 printColorWhite();
             }

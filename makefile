@@ -1,4 +1,6 @@
-SRCS = boardtools.c main.c printtools.c
+SRCS = main.c server.c client.c boardtools.c printtools.c communication.c
 
-all: $(SRCS)
-	gcc -o Battleship $(SRCS) -I.
+LIBS = -pthread
+
+all:  $(SRCS)
+	gcc -o BattleShip $(SRCS) $(LIBS)
