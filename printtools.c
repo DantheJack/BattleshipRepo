@@ -10,6 +10,9 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
+#define ROW 10
+#define COL 10
+
 void printColorYellow(void)
 {
   printf(KYEL);

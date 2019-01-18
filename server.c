@@ -104,8 +104,6 @@ void waitForConnection(int* socket, int* server_fd, struct sockaddr_in* address,
 
 void startGame(int socket1, int socket2)
 {
-	debug("socket1:%d  socket2:%d\n", socket1, socket2);
-
 	//Send start signal for both players
 	char* startSignal = "Game can start !";
 	debug("SERVER: sending start signal to player1\n");

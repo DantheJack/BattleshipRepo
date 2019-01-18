@@ -3,5 +3,6 @@
 
 void startClient(void);
 int establishConnection(char* ip_address);
+void playPvPGame(int socket);
 
 #endif // CLIENT_H
