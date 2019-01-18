@@ -44,3 +44,19 @@ void printColorBlue(void)
 {
   printf(KBLU);
 }
+
+
+void displayMatrice(char** matrice)
+{
+	//Display matrice
+	printf("display matrice\n");
+	int i, j;
+	for (i = 0; i<ROW; i++)
+	{
+		for (j = 0; j<COL; j++)
+		{
+			printf("%c ", matrice[i][j]);
+		}
+		printf("\n");
+	}
+}
