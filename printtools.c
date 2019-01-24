@@ -10,9 +10,6 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
-#define ROW 10
-#define COL 10
-
 void printColorYellow(void)
 {
   printf(KYEL);
@@ -46,20 +43,4 @@ void printColorMagenta(void)
 void printColorBlue(void)
 {
   printf(KBLU);
-}
-
-
-void displayMatrice(char** matrice)
-{
-	//Display matrice
-	printf("display matrice\n");
-	int i, j;
-	for (i = 0; i<ROW; i++)
-	{
-		for (j = 0; j<COL; j++)
-		{
-			printf("%c ", matrice[i][j]);
-		}
-		printf("\n");
-	}
 }

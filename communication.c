@@ -1,23 +1,25 @@
 #include "communication.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "constants.h"
 
 char* serializeMatrice(char** matrice, short row, short col)
 {
-	printf("serialize matrice\n");
+	debug("serialize matrice\n");
 	//create buffer obj
-	char* buffer = (char *)calloc((row * col), sizeof(char *));
+	char* buffer = (char*) calloc((row * col), sizeof(char*));
 	if (matrice == NULL) {
-			printf("-- Erreur lors de l'allocation de la memoire --\n");
-			exit(0);
+		printf("-- Erreur lors de l'allocation de la memoire --\n");
+		exit(0);
 	}
 
-	//Replace 0s
+
+	//Replace NUL char because they are not sent through socket
 	int i, j;
-	for(i=0; i<row; i++) {
-			for(j=0; j<col; j++) {
-					if(matrice[i][j] != 'C' && matrice[i][j] != 'S' && matrice[i][j] != 'D' && matrice[i][j] != 'B') matrice[i][j]='u';
-			}
+	for(i = 0; i<row; i++) {
+		for(j = 0; j<col; j++) {
+			if(matrice[i][j] == 0) matrice[i][j] = '-';
+		}
 	}
 
 	//init buffer
@@ -26,37 +28,55 @@ char* serializeMatrice(char** matrice, short row, short col)
 	{
 		for (j = 0; j<col; j++, count++)
 		{
-			buffer[count] = matrice[i][j];
+			buffer[count] = (int) matrice[i][j];
 		}
 	}
-
-	//Display matrice before sending
-	printf("display buffer before sending\n.");
-	for (i = 0; i<row * col; i++)
-	{
-			printf("%c ", buffer[i]);
-	}
-	printf(".\n");
 
 	return buffer;
 }
 
 
 
-void deserializeMatrice(char** matrice, char* buffer, short row, short col)
+void deserializeMatrice(char*** matrice, char* buffer, short row, short col)
 {
-	printf("deserialize matrice\n");
+	debug("deserialize matrice\n");
 	int i, j, count = 0;
 
 	for (i = 0; i<row; i++)
 	{
 		for (j = 0; j<col; j++, count++)
 		{
-				matrice[i][j] = buffer[count];
+			//The matrice we are modifying here is initialized with NUL char
+			//Do not read 0s that used to represent NUL char in the original matrice
+			if (buffer[count] != '-') {
+				(*matrice)[i][j] = buffer[count];
+			}
 		}
 	}
 }
 
+
+void displayMatrice(char** matrice)
+{
+	//Display matrice
+	printf("display matrice\n");
+	int i, j;
+	for (i = 0; i<ROW; i++)
+	{
+		for (j = 0; j<COL; j++)
+		{
+			if (matrice[i][j] == 0)
+			{
+				printf(" ");
+			}
+			else
+			{
+				printf("%c", matrice[i][j]);
+			}
+		}
+		printf("\n");
+	}
+}
 
 /*
 void ReceiveMatrice(char** matrice, int socket, char* buffer, short row, short col)

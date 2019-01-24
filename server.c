@@ -14,13 +14,7 @@
 #include "boardtools.h"
 #include "communication.h"
 #include "server.h"
-
-#define PORT 8080
-#define ROW 10
-#define COL 10
-
-#define DEBUG 1
-#define debug(format, ...) if (DEBUG) fprintf (stdout, format, ##__VA_ARGS__)
+#include "constants.h"
 
 void startServer()
 {
@@ -33,15 +27,15 @@ void startServer()
 	int socket1, socket2;
 
 	setUpServer(&server_fd, &address, &addrlen);
-	debug("SERVER STARTED\n");
+		debug("SERVER STARTED\n");
 
-	debug("SERVER: wait for connection 1\n");
+		debug("SERVER: wait for connection 1\n");
 	waitForConnection(&socket1, &server_fd, &address, &addrlen);
 
-	debug("SERVER: wait for connection 2\n");
+		debug("SERVER: wait for connection 2\n");
 	waitForConnection(&socket2, &server_fd, &address, &addrlen);
 
-	debug("SERVER: all connection accepted\n");
+		debug("SERVER: all connection accepted\n");
 
 	startGame(socket1, socket2);
 }
@@ -113,55 +107,66 @@ void startGame(int socket1, int socket2)
 
 
 	//Wait to receive board of each client
-	char* serializedMatrice_Client1 = (char*) malloc(1024 * sizeof(char));
-	char* serializedMatrice_Client2 = (char*) malloc(1024 * sizeof(char));
-
+	char* serializedMatrice_Client1 = (char*) malloc(ROW * COL * sizeof(char));
+	char* serializedMatrice_Client2 = (char*) malloc(ROW * COL * sizeof(char));
+	int retour = 0;
 	//Wait for Client1's board reception
-	debug("SERVER: read buffer\n");
-	read(socket1, serializedMatrice_Client1, 1024);
-	debug("SERVER: received: .%s. from Client1\n", serializedMatrice_Client1);
+	debug("SERVER: is going to read buffer\n");
+	retour = read(socket1, serializedMatrice_Client1, ROW * COL);
+	debug("SERVER: read %d bytes from buffer\n", retour);
+	debug("SERVER: received: %s from Client1\n strlen(buffer) = %ld\n\n", serializedMatrice_Client1, strlen(serializedMatrice_Client1));
 
 	//Wait for Client2's board reception
-	debug("SERVER: read buffer\n");
-	read(socket2, serializedMatrice_Client2, 1024);
-	debug("SERVER: received: .%s. from Client2\n", serializedMatrice_Client2);
+	debug("SERVER: is going to read buffer\n");
+	retour = read(socket2, serializedMatrice_Client2, ROW * COL);
+	debug("SERVER: read %d bytes from buffer\n", retour);
+	debug("SERVER: received: %s from Client2\n strlen(buffer) = %ld\n\n", serializedMatrice_Client2, strlen(serializedMatrice_Client2));
 
 	//Send back boards to the other player
 	send(socket1, serializedMatrice_Client2, strlen(serializedMatrice_Client2), 0);
 	send(socket2, serializedMatrice_Client1, strlen(serializedMatrice_Client1), 0);
 
-	debug("SERVER: read coordinate\n");
+	debug("SERVER: boards exchanged between players, game can start\n");
 	//The game can start
-	char* buffer = (char*) malloc(1024 * sizeof(char));
-	while (1)
+	char* buffer = (char*) malloc(2 * sizeof(char));
+	//while (1)
 	{
-		//Tell client2 to shot
+		//Tell client1 to shot
 		buffer[0] = 'a';
+		debug("SERVER: is going to send : %s, strlen(buffer) = %ld\n", buffer, strlen(buffer));
+		retour = send(socket1, buffer, strlen(buffer), 0);
+		debug("SERVER sent %d bytes\n", retour);
+
+		//Tell client 2 to wait
+		buffer[0] = 'b';
+		debug("SERVER: is going to send : %s, strlen(buffer) = %ld\n", buffer, strlen(buffer));
 		send(socket2, buffer, strlen(buffer), 0);
-		send(socket2, buffer, strlen(buffer), 0);
-		send(socket1, buffer, strlen(buffer), 0);
-		send(socket1, buffer, strlen(buffer), 0);
-		//Receive shot coordinates from Client2
-		read(socket2, buffer, 1024);
+		debug("SERVER sent %d bytes\n", retour);
+
+		//Receive shot coordinates from Client1
+		read(socket1, buffer, strlen(buffer));
 		short x = buffer[0];
 		short y = buffer[1];
-		debug("SERVER: received (%d/%d) from P1\n", x, y);
-		//Send shot coordinates to Client1
-		send(socket1, buffer, strlen(buffer), 0);
-		debug("SERVER: sent (%d/%d) to P2\n", x, y);
+		debug("SERVER: received (%d/%d) from client1\n", x, y);
 
+		//Send shot coordinates to Client2
+		send(socket2, buffer, strlen(buffer), 0);
+		debug("SERVER: sent (%d/%d) to client2\n", x, y);
+
+/*
 		//Tell client1 to shot
 		buffer[0] = 'b';
 		send(socket2, buffer, strlen(buffer), 0);
 		send(socket1, buffer, strlen(buffer), 0);
 		//Receive shot coordinates from client1
-		read(socket1, buffer, 1024);
+		read(socket1, buffer, ROW * COL);
 		x = buffer[0];
 		y = buffer[1];
 		debug("SERVER: received (%d/%d) from P2\n", x, y);
 		//Send shot coordinates to client2
 		send(socket2, buffer, strlen(buffer), 0);
 		debug("SERVER: sent (%d/%d) to P1\n", x, y);
+		*/
 	}
 
 }

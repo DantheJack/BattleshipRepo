@@ -10,6 +10,5 @@ void printColorWhite(void);
 void printColorGreen(void);
 void printColorMagenta(void);
 void printColorBlue(void);
-void displayMatrice(char** matrice);
 
 #endif // PRINTTOOLS_H

@@ -10,20 +10,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#define PORT 8080
-#define COLONNES 10
-#define LIGNES 10
-#define NB_SHIPS 10
-#define SIZE_MAN_O_WAR 5
-#define SIZE_NAVIRE_DE_LIGNE 4
-#define SIZE_FREGATE 3
-#define SIZE_SLOOP 4
 
 #include "printtools.h"
 #include "boardtools.h"
 #include "communication.h"
 #include "client.h"
 #include "server.h"
+#include "constants.h"
 
 /**
 *		Core of the client program
@@ -32,7 +25,7 @@
 void startClient()
 {
 	short i, j = 0;
-	short choice=0;
+	short choice= 0;
 	short hostornot = 0;
 	short difficulte = 0;
 	short placing = 0;
@@ -132,7 +125,7 @@ void startClient()
 					system("clear");
 					printf("\n\n\n              The game is about to start...\n\n\n");
 					_getch();
-					char** matrice_J1 = (char**) creerMatrice(COLONNES, LIGNES);
+					char** matrice_J1 = (char**) creerMatrice(COL, ROW);
 					system("clear");
 					while(leaveswitch4 == 0)
 					{
@@ -140,30 +133,30 @@ void startClient()
 						switch(placing)
 						{
 							case 1:
-							matrice_J1 = place_randomly(matrice_J1, COLONNES, LIGNES, NB_SHIPS);
-							printBoard(matrice_J1, COLONNES, LIGNES, 1);
+							matrice_J1 = place_randomly(matrice_J1, COL, ROW, NB_SHIPS);
+							printBoard(matrice_J1, COL, ROW, 1);
 							_getch();
 							leaveswitch4 = 1;
 							break;
 							case 2:
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
-							matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 5);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 3);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 3);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 3);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 4);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 4);
+							matrice_J1 = placeShip(matrice_J1, COL, ROW, 5);
 							leaveswitch4 = 1;
 							break;
 							default:
 							break;
 						}
 					}
-					char** matrice_J2 = (char**) creerMatrice(COLONNES, LIGNES);
-					place_randomly(matrice_J2, COLONNES, LIGNES, NB_SHIPS);
+					char** matrice_J2 = (char**) creerMatrice(COL, ROW);
+					place_randomly(matrice_J2, COL, ROW, NB_SHIPS);
 					short we_got_winner = 0;
 					short nb_boat_left = 0;
 					coordonnees_tir tir;
@@ -174,12 +167,12 @@ void startClient()
 						printf("\n\n               IT'S YOUR TURN TO SHOOT !\n");
 						printColorWhite();
 						_getch();
-						tir = Aim(matrice_J2, COLONNES, LIGNES);
-						printBoard_af_tir(matrice_J2, COLONNES, LIGNES, tir, 1);
+						tir = Aim(matrice_J2, COL, ROW);
+						printBoard_af_tir(matrice_J2, COL, ROW, tir, 1);
 						_getch();
 
-						for (i=0; i<LIGNES; i++) {
-							for (j=0; j<COLONNES; j++) {
+						for (i=0; i<ROW; i++) {
+							for (j=0; j<COL; j++) {
 								if (matrice_J2[i][j] == 'C' || matrice_J2[i][j] == 'S' || matrice_J2[i][j] == 'D' || matrice_J2[i][j] == 'B') nb_boat_left++;
 							}
 						}
@@ -195,14 +188,14 @@ void startClient()
 						printColorWhite();
 						_getch();
 
-						if (difficulte==1) tir = Aim_randomly(matrice_J1, COLONNES, LIGNES, 10);
-						if (difficulte==2) tir = Aim_randomly(matrice_J1, COLONNES, LIGNES, 5);
-						if (difficulte==3) tir = Aim_randomly(matrice_J1, COLONNES, LIGNES, 3);
-						printBoard_af_tir(matrice_J1, COLONNES, LIGNES, tir, 0);
+						if (difficulte==1) tir = Aim_randomly(matrice_J1, COL, ROW, 10);
+						if (difficulte==2) tir = Aim_randomly(matrice_J1, COL, ROW, 5);
+						if (difficulte==3) tir = Aim_randomly(matrice_J1, COL, ROW, 3);
+						printBoard_af_tir(matrice_J1, COL, ROW, tir, 0);
 						_getch();
 
-						for (i=0; i<LIGNES; i++) {
-							for (j=0; j<COLONNES; j++) {
+						for (i=0; i<ROW; i++) {
+							for (j=0; j<COL; j++) {
 								if (matrice_J1[i][j] == 'C' || matrice_J1[i][j] == 'S' || matrice_J1[i][j] == 'D' || matrice_J1[i][j] == 'B') nb_boat_left++;
 							}
 						}
@@ -267,8 +260,8 @@ void startClient()
 					}
 
 					_getch();
-					libererMatrice((short**) matrice_J1, LIGNES);
-					libererMatrice((short**) matrice_J2, LIGNES);
+					libererMatrice((short**) matrice_J1, ROW);
+					libererMatrice((short**) matrice_J2, ROW);
 
 					we_got_winner = 0;
 					difficulte = 0;
@@ -298,10 +291,8 @@ int establishConnection(char* ip_address)
 	printf("CLIENT started\n");
 
 	struct sockaddr_in address;
-	int sock = 0, valread;
+	int sock = 0;
 	struct sockaddr_in serv_addr;
-	char *hello = "Hello from client";
-	char buffer[1024] = {0};
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		printf("\n Socket creation error \n");
@@ -334,18 +325,6 @@ int establishConnection(char* ip_address)
 		}
 	}
 
-	/*
-	send(sock , hello , strlen(hello) , 0 );
-	printf("Client: Hello message sent\n");
-	valread = read( sock , buffer, 1024);
-	printf("%s\n",buffer );
-	*/
-
-	//Wait on semaphore to send to server
-	//sem_t* sendRequest_sem = (sem_t*) param;
-	//printf("CLIENT: wait sem before sending matrice\n");
-	//sem_wait(sendRequest_sem);
-
 	return sock;
 }
 
@@ -357,81 +336,81 @@ void playPvPGame(int socket)
 	coordonnees_tir tir;
 	short leaveswitch2 = 0;
 
-	char* buffer = (char*) malloc(1024 * sizeof(char));
+	char* buffer = (char*) malloc(ROW * COL * sizeof(char));
 	char** matrice_J1;
 	char** matrice_J2;
 
 	//read start msg
 	printf("Waiting for an opponent...\n");
-	read(socket, buffer, 1024);
+	read(socket, buffer, ROW * COL);
 	printf("%s\n", buffer);
 
 	system("clear");
 	printf("\n\n\n              The game is about to start...\n\n\n");
 	_getch();
-	matrice_J1 = (char**) creerMatrice(COLONNES, LIGNES);
+	matrice_J1 = (char**) creerMatrice(COL, ROW);
 	system("clear");
 	placing = menuChoice2("PLACE MY SHIPS RANDOMLY", "I'LL PLACE MY SHIPS MYSELF", 2,"");
 	switch(placing)
 	{
 		case 1:
-		matrice_J1 = place_randomly(matrice_J1, COLONNES, LIGNES, NB_SHIPS);
-		printBoard(matrice_J1, COLONNES, LIGNES, 1);
+		matrice_J1 = place_randomly(matrice_J1, COL, ROW, NB_SHIPS);
+		printBoard(matrice_J1, COL, ROW, 1);
 		_getch();
 		break;
 		case 2:
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 2);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 3);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 4);
-		matrice_J1 = placeShip(matrice_J1, COLONNES, LIGNES, 5);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 2);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 3);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 3);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 3);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 4);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 4);
+		matrice_J1 = placeShip(matrice_J1, COL, ROW, 5);
 		break;
 		default:
 		break;
 	}
 
 	//Init board and send it to server
-	displayMatrice(matrice_J1);
+	if (DEBUG) displayMatrice(matrice_J1);
 	//Serialize Matrice
-	buffer = serializeMatrice(matrice_J1, LIGNES, COLONNES);
-	//Send matrice
+	int retour = 0;
+	buffer = serializeMatrice(matrice_J1, ROW, COL);
 
-	send(socket, buffer, strlen(buffer), 0);
-	printf("CLIENT1: Matrice sent\n");
+	debug("CLIENT: strlen(buffer): %ld\n", strlen(buffer));
+	debug("CLIENT: buffer before sending matrice: %s\n", buffer);
+	//Send matrice
+	retour = send(socket, buffer, strlen(buffer), 0);
+	debug("CLIENT1: send() returned %d\n", retour);
+	debug("CLIENT1: Matrice sent\n\n");
 
 	//Reveive board from other player
 	//Retrieve serialized matrice from buffer
-	read(socket, buffer, 1024);
+	retour = read(socket, buffer, ROW * COL);
+	debug("CLIENT: read %d bytes from buffer\n", retour);
+	debug("CLIENT: received buffer: %s from server\n", buffer);
 	//Deserialize matrice
-	matrice_J2 = (char**) creerMatrice(COLONNES, LIGNES);
+	matrice_J2 = (char**) creerMatrice(ROW, COL);
+	deserializeMatrice(&matrice_J2, buffer, ROW, COL);
 
-	int i, j, count;
-	for (i=0; i<LIGNES; i++) {
-		for (j=0; j<COLONNES; j++, count++) {
-			if (buffer[count] != 'u')
-			{
-				matrice_J2[i][j] = buffer[count];
-			}
-		}
-	}
+	debug("CLIENT1 recieved this matrice from client 2:\n");
+	if (DEBUG) displayMatrice(matrice_J2);
 
-	//deserializeMatrice(matrice_J2, buffer, LIGNES, COLONNES);
-	printf("CLIENT1 recieved this matrice from client 2:\n");
-	displayMatrice(matrice_J2);
+	//Tell to server that client is ready to start
+	//send(socket, buffer, strlen(buffer), 0);
 
 	_getch();
 
 	while(we_got_winner == 0) {
-		system("clear");
+		//system("clear");
 
 		//Detection de "J'AI PERDU"
-		for (i=0; i<LIGNES; i++) {
-			for (j=0; j<COLONNES; j++) {
+		int i, j;
+		for (i=0; i<ROW; i++) {
+			for (j=0; j<COL; j++) {
 				if (matrice_J1[i][j] == 'C' || matrice_J1[i][j] == 'S' || matrice_J1[i][j] == 'D' || matrice_J1[i][j] == 'B') nb_boat_left++;
 			}
 		}
@@ -442,32 +421,33 @@ void playPvPGame(int socket)
 		}
 		nb_boat_left = 0;
 		//////////////////////////
-		//Attente top depart du server
-		printf("CLIENT1 : attente dE READ\n");
-		read(socket, buffer, 1024);
-		printf("CLIENT1 : read recu %s\n", buffer);
-		printf("CLIENT1 : attente dE READ\n");
-		read(socket, buffer, 1024);
-		printf("CLIENT1 : read recu %s\n", buffer);
-		if (buffer[0]=='a') {
+		//Serveur indique si le client doit attendre ou tirer 'a' = tirer
+		debug("CLIENT : game is about to start, waiting for server\n");
+		read(socket, buffer, 2);
+		debug("CLIENT : read recu : %s\n", buffer);
+
+		if (buffer[0] == 'a') //Your turn to shoot
+		{
 			printColorYellow();
 			printf("\n\n               IT'S YOUR TURN TO SHOOT !\n");
 			printColorWhite();
 			_getch();
-			tir = Aim(matrice_J2, COLONNES, LIGNES);
+			tir = Aim(matrice_J2, COL, ROW);
 
 			//******* TRANSMETTRE LE TIR A J2
 			buffer[0] = tir.a_la_ligne;
 			buffer[1] = tir.a_la_colonne;
-			send(socket, buffer, strlen(buffer), 0);
+			debug("CLIENT: is going to send coordinates %d/%d\n", buffer[0], buffer[1]);
+			retour = send(socket, buffer, strlen(buffer), 0);
+			debug("CLIENT: sent %d bytes\n", retour);
 
-			printBoard_af_tir(matrice_J2, COLONNES, LIGNES, tir, 1);
+			printBoard_af_tir(matrice_J2, COL, ROW, tir, 1);
 			_getch();
 
 
 			//Detection de "J'AI GAGNE"
-			for (i=0; i<LIGNES; i++) {
-				for (j=0; j<COLONNES; j++) {
+			for (i=0; i<ROW; i++) {
+				for (j=0; j<COL; j++) {
 					if (matrice_J2[i][j] == 'C' || matrice_J2[i][j] == 'S' || matrice_J2[i][j] == 'D' || matrice_J2[i][j] == 'B') nb_boat_left++;
 				}
 			}
@@ -479,21 +459,21 @@ void playPvPGame(int socket)
 			nb_boat_left = 0;
 			//////////////////////////
 		}
-		else
+		else //Enemy turn to shoot
 		{
-			system("clear");
+			//system("clear");
 			printColorYellow();
 			printf("\n\n         TAKE COVER, THEY ARE SHOOTING AT YOU !\n");
 			printColorWhite();
 			_getch();
 
-			read(socket, buffer, 1024);
+			read(socket, buffer, ROW * COL);
 			//******* RECEPTION DU TIR DE J2
-			read(socket, buffer, 1024);
+			read(socket, buffer, ROW * COL);
 			tir.a_la_ligne = buffer[0];
 			tir.a_la_colonne = buffer[1];
 
-			printBoard_af_tir(matrice_J1, COLONNES, LIGNES, tir, 0);
+			printBoard_af_tir(matrice_J1, COL, ROW, tir, 0);
 			_getch();
 		}
 	}
@@ -512,8 +492,8 @@ void playPvPGame(int socket)
 	}
 	//////////////////////////
 	_getch();
-	libererMatrice((short**) matrice_J1, LIGNES);
-	//libererMatrice((short**) matrice_J2, LIGNES);
+	libererMatrice((short**) matrice_J1, ROW);
+	//libererMatrice((short**) matrice_J2, ROW);
 
 	//******* EXTINCTION DU SERVEUR
 
